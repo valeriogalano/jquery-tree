@@ -114,6 +114,13 @@ $.widget("daredevel.treecontextmenu", {
          */
         'contextmenuItems':[
             {
+                'html': 'move as root',
+                'href': 'javascript:void(0);',
+                'onClick': function(event, element) {
+                    $(this.options.core.element).tree('moveNode', $('.' + this.options.core.widgetBaseClass).selected(), this.options.core.element);
+                }
+            },
+            {
                 'html': 'cut',
                 'href': 'javascript:void(0);',
                 'onClick': function(event, element) {

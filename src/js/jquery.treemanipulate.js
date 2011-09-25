@@ -17,7 +17,11 @@ $.widget("daredevel.treemanipulate", {
      */
     _attachNode: function(li, parentLi) {
 
-        var ul = parentLi.find('ul:first');
+        if (parentLi[0] == this.options.core.element[0]) {
+            var ul = this.options.core.element;
+        } else {
+            var ul = parentLi.find('ul:first');
+        }
 
         if (ul.length) {
             ul.append(li);
