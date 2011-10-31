@@ -63,6 +63,7 @@
     <li><a href="#tabs-8">check single branch</a></li>
     <li><a href="#tabs-9">events handling</a></li>
     <li><a href="#tabs-10">tree manipulation</a></li>
+    <li><a href="#tabs-11">node initial state</a></li>
 </ul>
 
 <div id="tabs-0">
@@ -656,6 +657,59 @@
                         <li><input type="checkbox"><span>Node 1.1.1</span>
                     </ul>
                 <li><input type="checkbox"><span>Node 1.2</span>
+                    <ul>
+                        <li><input type="checkbox"><span>Node 1.2.1</span>
+                        <li><input type="checkbox"><span>Node 1.2.2</span>
+                        <li><input type="checkbox"><span>Node 1.2.3</span>
+                            <ul>
+                                <li id="y"><input type="checkbox"><span>Node 1.2.3.1</span>
+                                <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                            </ul>
+                        <li><input type="checkbox"><span>Node 1.2.4</span>
+                        <li><input type="checkbox"><span>Node 1.2.5</span>
+                        <li><input type="checkbox"><span>Node 1.2.6</span>
+                    </ul>
+            </ul>
+        <li id="z"><input type="checkbox"><span>Node 2</span>
+            <ul>
+                <li><input type="checkbox"><span>Node 2.1</span>
+                    <ul>
+                        <li><input type="checkbox"><span>Node 2.1.1</span>
+                    </ul>
+                <li><input type="checkbox"><span>Node 2.2</span>
+                    <ul>
+                        <li><input type="checkbox"><span>Node 2.2.1</span>
+                        <li><input type="checkbox"><span>Node 2.2.2</span>
+                        <li><input type="checkbox"><span>Node 2.2.3</span>
+                            <ul>
+                                <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                            </ul>
+                        <li><input type="checkbox"><span>Node 2.2.4</span>
+                        <li><input type="checkbox"><span>Node 2.2.5</span>
+                        <li><input type="checkbox"><span>Node 2.2.6</span>
+                    </ul>
+            </ul>
+    </ul>
+</div>
+
+<div id="tabs-11">
+    <p>This example show how to define node initial state.</p>
+    <p>To start a node collapsed, set class="collapsed" in li element.</p>
+    <p>To start a node checked, simply set attribute checked="true" in input element.</p>
+    <code class="jquery" lang="text/javascript">
+        $('#tabs-11 ul:first').tree({
+            components: ['checkbox', 'collapse']
+        });
+    </code>
+    <ul>
+        <li><input type="checkbox"><span>Node 1</span>
+            <ul>
+                <li class="collapsed"><input type="checkbox"><span>Node 1.1 (start collapsed)</span>
+                    <ul>
+                        <li><input type="checkbox"><span>Node 1.1.1</span>
+                    </ul>
+                <li><input type="checkbox" checked="true"><span>Node 1.2</span>
                     <ul>
                         <li><input type="checkbox"><span>Node 1.2.1</span>
                         <li><input type="checkbox"><span>Node 1.2.2</span>
