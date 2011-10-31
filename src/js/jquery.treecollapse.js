@@ -77,10 +77,10 @@ $.widget("daredevel.treecollapse", {
             t._markAsLeaf(li);
         } else
         if (li.hasClass("collapsed")) {
-            t.collapse(li, false);
+            t.collapse(li, false, true);
         } else
         if (li.hasClass("expanded")) {
-            t.expand(li, false);
+            t.expand(li, false, true);
         } else
 
         // otherwise, guess state from tree structure
@@ -167,15 +167,20 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li node to collapse
      * @param effect true if use effects
+     * @param force true to collpase a node already marked as collapsed
      */
-    collapse: function(li, effect) {
+    collapse: function(li, effect, force) {
 
         li = $(li);
 
-        /*        if (li.hasClass('collapsed')) {
-         return;
-         }
-         */
+        if (force == undefined) {
+            force = false;
+        }
+
+        if (!force && li.hasClass('collapsed')) {
+            return;
+        }
+
         if (effect == undefined) {
             effect = true;
         }
@@ -215,14 +220,18 @@ $.widget("daredevel.treecollapse", {
      * @param li node to expand
      * @param effect true if use effects
      */
-    expand: function(li, effect) {
+    expand: function(li, effect, force) {
 
         li = $(li);
 
-        /*      if (li.hasClass('expanded')) {
-         return;
-         }
-         */
+        if (force == undefined) {
+            force = false;
+        }
+
+        if (!force && li.hasClass('expanded')) {
+             return;
+        }
+
         if (effect == undefined) {
             effect = true;
         }
