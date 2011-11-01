@@ -45,6 +45,12 @@ $.widget("daredevel.tree", {
         this.element.find('li').each(function() {
             t._initializeNode($(this));
         });
+
+        if (this.options.nodes != null) {
+            $.each(this.options.nodes, function(key, value) {
+                t.options.core.addNode(value);
+            });
+        }
     },
 
     /**
@@ -123,7 +129,9 @@ $.widget("daredevel.tree", {
         /**
          * Defines components to load.
          */
-        components: []
+        components: [],
+        
+        nodes: null
 
     }
 });

@@ -149,9 +149,17 @@ $.widget("daredevel.treemanipulate", {
      */
     addNode: function(attributes, parentLi) {
 
+        var t = this;
+
         var li = this._buildNode(attributes);
 
         this._attachNode(li, parentLi);
+
+if (undefined != attributes.children) {
+$.each(attributes.children, function(value, key) {
+t.addNode(value, li);
+});
+}
 
     },
 

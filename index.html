@@ -64,15 +64,17 @@
     <li><a href="#tabs-9">events handling</a></li>
     <li><a href="#tabs-10">tree manipulation</a></li>
     <li><a href="#tabs-11">node initial state</a></li>
+    <li><a href="#tabs-12">generate tree from object</a></li>
 </ul>
 
 <div id="tabs-0">
     <p>This example show all script basic features.</p>
     <code class="jquery" lang="text/javascript">
-        $('#tabs-0 ul:first').tree({
+        $('#tabs-0 div:first').tree({
             components: ['ajax', 'checkbox', 'collapse', 'contextmenu', 'dnd', 'manipulate', 'select']
         });
     </code>
+    <div>
     <ul>
         <li><input type="checkbox"><span>Node 1</span>
             <ul>
@@ -117,6 +119,7 @@
                     </ul>
             </ul>
     </ul>
+    </div>
 </div>
 
 <div id="tabs-1">
@@ -748,6 +751,26 @@
                     </ul>
             </ul>
     </ul>
+</div>
+<div id="tabs-12">
+    <p>This example show how to define node initial state.</p>
+    <p>To start a node collapsed, set class="collapsed" in li element.</p>
+    <p>To start a node checked, simply set attribute checked="true" in input element.</p>
+    <code class="jquery" lang="text/javascript">
+        $('#tabs-12 div').tree({
+            components: ['manipulate'],
+            nodes: [
+                {
+                    children: [
+                        {},
+                        {}
+                    ] 
+                }
+            ]
+        });
+    </code>
+    <div>
+    </div>
 </div>
 
 </div>
