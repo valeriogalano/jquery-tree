@@ -41,7 +41,9 @@ $.widget("daredevel.treeselect", {
     /**
      * Deselect a node
      *
-     * @param li
+     * @private
+     *
+     * @param li node
      */
     _deselect: function(li) {
         li.find('span.' + this.options.core.widgetBaseClass + '-label:first').removeClass(this.options.selectUiClass);
