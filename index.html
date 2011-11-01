@@ -630,23 +630,27 @@
 <div id="tabs-10">
     <p>This example show how to manipulate tree.</p>
     <code class="jquery" lang="text/javascript">
-        $('#tabs-10 ul:first').tree({
+        var tree10 = $('#tabs-10 ul:first').tree({
             components: ['checkbox', 'collapse', 'dnd', 'manipulate', 'select']
         });
 
         $('#tabs-10-add').click(function(){
-            $('#tabs-10 ul:first').tree('addNode', {}, $('#y'));
+            tree10.tree('addNode', {}, $('#y'));
+        });
+        $('#tabs-10-add-as-root').click(function(){
+            tree10.tree('addNode', {li: {'class': 'leaf'}});
         });
         $('#tabs-10-remove').click(function(){
             var node = $('#y ul').children('li:first');
-            $('#tabs-10 ul:first').tree('removeNode', node);
+            tree10.tree('removeNode', node);
         });
         $('#tabs-10-move').click(function(){
             var node = $('#y ul').children('li:first');
-            $('#tabs-10 ul:first').tree('moveNode', node, $('#z'));
+            tree10.tree('moveNode', node, $('#z'));
         });
     </code>
     <input type="button" id="tabs-10-add" value="Add" />
+    <input type="button" id="tabs-10-add-as-root" value="Add root" />
     <input type="button" id="tabs-10-remove" value="Remove" />
     <input type="button" id="tabs-10-move" value="Move" />
     <ul>

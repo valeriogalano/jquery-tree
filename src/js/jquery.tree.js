@@ -15,6 +15,7 @@ $.widget("daredevel.tree", {
      * Initialize plugin.
      *
      * @private
+     *
      * @note Base tree structure must be something like this:
      *
      * <ul id="tree">
@@ -50,6 +51,7 @@ $.widget("daredevel.tree", {
      * Destroy plugin
      *
      * @private
+     *
      * @todo complete destroy method
      */
     _destroy: function() {
@@ -72,6 +74,7 @@ $.widget("daredevel.tree", {
      * Initialize passed node
      *
      * @private
+     *
      * @param li node to initialize
      */
     _initializeNode: function(li) {
@@ -88,6 +91,7 @@ $.widget("daredevel.tree", {
      * Check if passed node is a root
      *
      * @public
+     *
      * @param li node to check
      */
     isRoot: function(li) {
@@ -103,6 +107,7 @@ $.widget("daredevel.tree", {
      * Return parent li of the passed li
      *
      * @public
+     *
      * @param li node as jQuery object or selector
      * @return parent li
      */

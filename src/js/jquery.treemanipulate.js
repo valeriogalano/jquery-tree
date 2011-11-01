@@ -12,12 +12,15 @@ $.widget("daredevel.treemanipulate", {
     /**
      * Attach a node under passed parent
      *
+     * @private
+     *
      * @param li node to attach
      * @param parentLi node under which new node will be attached
      */
     _attachNode: function(li, parentLi) {
 
-        if (parentLi[0] == this.options.core.element[0]) {
+        // if no parent is passed, node will be attached as root
+        if ((undefined == parentLi) || (parentLi[0] == this.options.core.element[0])) {
             var ul = this.options.core.element;
         } else {
             var ul = parentLi.find('ul:first');
@@ -29,11 +32,16 @@ $.widget("daredevel.treemanipulate", {
             var ul = $('<ul/>');
             parentLi.append(ul.append(li));
         }
-        parentLi.removeClass('leaf collapsed').addClass('expanded') //@todo find right way to do this
+        
+        if (undefined != parentLi) {
+            parentLi.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+        }
 
         //initialize nodes from core to call all components initialize methods
         this.options.core._initializeNode(li);
-        this.options.core._initializeNode(parentLi);
+        if (undefined != parentLi) {
+            this.options.core._initializeNode(parentLi);
+        }
     },
 
     /**
@@ -99,6 +107,8 @@ $.widget("daredevel.treemanipulate", {
     /**
      * Detach a node (actually don't delete it)
      *
+     * @private
+     *
      * @param li node to detach
      */
     _detachNode: function(li) {
@@ -152,8 +162,11 @@ $.widget("daredevel.treemanipulate", {
      * @param parentLi
      */
     moveNode: function(li, parentLi) {
+
         this._detachNode($(li));
+
         this._attachNode($(li), $(parentLi));
+
     },
 
     /**
@@ -162,7 +175,9 @@ $.widget("daredevel.treemanipulate", {
      * @param li node to delete (can be jQuery object or selector)
      */
     removeNode: function(li) {
+
         this._detachNode($(li));
+
     },
 
     /**
