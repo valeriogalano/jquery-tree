@@ -20,11 +20,8 @@ $.widget("daredevel.treemanipulate", {
     _attachNode: function(li, parentLi) {
 
         // if no parent is passed, node will be attached as root
-        if ((undefined == parentLi) || (parentLi[0] == this.options.core.element[0])) {
-            var ul = this.options.core.element;
-        } else {
-            var ul = parentLi.find('ul:first');
-        }
+//        if ((undefined == parentLi) || (parentLi[0] == this.options.core.element[0])) {
+        var ul = parentLi.find('ul:first');
 
         if (ul.length) {
             ul.append(li);
@@ -32,16 +29,32 @@ $.widget("daredevel.treemanipulate", {
             var ul = $('<ul/>');
             parentLi.append(ul.append(li));
         }
-        
-        if (undefined != parentLi) {
-            parentLi.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+
+        parentLi.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+
+        //initialize nodes from core to call all components initialize methods
+        this.options.core._initializeNode(li);
+        this.options.core._initializeNode(parentLi);
+    },
+
+    /**
+     * Attach node as root
+     * 
+     * @param li
+     */
+    _attachRoot: function(li) {
+
+        var ul = this.options.core.element.find('ul:first');
+
+        if (ul.length) {
+            ul.append(li);
+        } else {
+            var ul = $('<ul/>');
+            this.options.core.element.append(ul.append(li));
         }
 
         //initialize nodes from core to call all components initialize methods
         this.options.core._initializeNode(li);
-        if (undefined != parentLi) {
-            this.options.core._initializeNode(parentLi);
-        }
     },
 
     /**
@@ -153,13 +166,17 @@ $.widget("daredevel.treemanipulate", {
 
         var li = this._buildNode(attributes);
 
-        this._attachNode(li, parentLi);
+        if (undefined == parentLi) {
+            this._attachRoot(li);
+        } else {
+            this._attachNode(li, parentLi);
+        }
 
-if (undefined != attributes.children) {
-$.each(attributes.children, function(value, key) {
-t.addNode(value, li);
-});
-}
+        if (undefined != attributes.children) {
+            $.each(attributes.children, function(value, key) {
+                t.addNode(value, li);
+            });
+        }
 
     },
 
@@ -173,7 +190,11 @@ t.addNode(value, li);
 
         this._detachNode($(li));
 
-        this._attachNode($(li), $(parentLi));
+        if (undefined == parentLi) {
+            this._attachRoot($(li));
+        } else {
+            this._attachNode($(li), $(parentLi));
+        }
 
     },
 
