@@ -29,7 +29,7 @@
     <script type="text/javascript" src="src/js/jquery.treecollapse.js"></script>
     <script type="text/javascript" src="src/js/jquery.treecontextmenu.js"></script>
     <script type="text/javascript" src="src/js/jquery.treednd.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treemanipulate.js"></script>
+<!--    <script type="text/javascript" src="src/js/jquery.treemanipulate.js"></script> -->
     <script type="text/javascript" src="src/js/jquery.treeselect.js"></script>
     <link rel="stylesheet" type="text/css" href="src/css/jquery.tree.css"/>
     <!-- end tree configuration -->
@@ -71,7 +71,7 @@
     <p>This example show all script basic features.</p>
     <code class="jquery" lang="text/javascript">
         $('#tabs-0 div').tree({
-            components: ['ajax', 'checkbox', 'collapse', 'contextmenu', 'dnd', 'manipulate', 'select']
+            components: ['ajax', 'checkbox', 'collapse', 'contextmenu', 'dnd', /*'manipulate',*/ 'select']
         });
     </code>
     <div>
@@ -181,7 +181,7 @@
     <p>This example show how to retrieve nodes from an ajax call.</p>
     <code class="jquery" lang="text/javascript">
         $('#tabs-2 div').tree({
-            components: ['ajax', 'collapse', 'manipulate'],
+            components: ['ajax', 'collapse'/*, 'manipulate'*/],
             lazyLoadingUrl: 'demo/lazy.json'
         });
     </code>
@@ -650,7 +650,7 @@
     <p>This example show how to manipulate tree.</p>
     <code class="jquery" lang="text/javascript">
         var tree10 = $('#tabs-10 div').tree({
-            components: ['checkbox', 'collapse', 'dnd', 'manipulate', 'select']
+            components: ['checkbox', 'collapse', 'dnd', /*'manipulate',*/ 'select']
         });
 
         $('#tabs-10-add').click(function(){
@@ -778,7 +778,7 @@
     <p>To start a node checked, simply set attribute checked="true" in input element.</p>
     <code class="jquery" lang="text/javascript">
         $('#tabs-12 div').tree({
-            components: ['manipulate'],
+//            components: ['manipulate'],
             nodes: [
                 {
                     children: [
