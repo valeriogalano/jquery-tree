@@ -100,14 +100,16 @@ $.widget("daredevel.tree", {
      *
      * @note Base tree structure must be something like this:
      *
-     * <ul id="tree">
-     *   <li id="node1" class="expanded"><input type="checkbox"><label>Node 1</label><span>Node 1</span>
-     *     <ul>
-     *       <li><input type="checkbox"><label>Node 1.1</label>
-     *       <li><input type="checkbox"><label>Node 1.2</label>
-     *     </ul>
-     *   </li>
-     * </ul>
+     * <div id="tree">
+     *   <ul>
+     *     <li id="node1" class="expanded"><input type="checkbox"><label>Node 1</label><span>Node 1</span>
+     *       <ul>
+     *         <li><input type="checkbox"><label>Node 1.1</label>
+     *         <li><input type="checkbox"><label>Node 1.2</label>
+     *       </ul>
+     *     </li>
+     *   </ul>
+     * </div>
      *
      * 1) input type="checkbox" tag and label tag are mandatory only to use checkbox component
      */
@@ -205,7 +207,7 @@ $.widget("daredevel.tree", {
      *
      * @public
      *
-     * @param attribute new node attributes
+     * @param attributes new node attributes
      * @param parentLi node under which new node will be attached
      */
     addNode: function(attributes, parentLi) {
@@ -226,6 +228,7 @@ $.widget("daredevel.tree", {
             });
         }
 
+        t._trigger('add', true, li);
     },
 
     /**
@@ -259,7 +262,8 @@ $.widget("daredevel.tree", {
         } else {
             this._attachNode($(li), $(parentLi));
         }
-
+        
+        this._trigger('move', true, $(li));
     },
 
     /**
@@ -282,6 +286,8 @@ $.widget("daredevel.tree", {
     removeNode: function(li) {
 
         this._detachNode($(li));
+
+        this._trigger('remove', true, $(li));
 
     },
 
