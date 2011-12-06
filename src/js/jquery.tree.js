@@ -28,7 +28,7 @@ $.widget("daredevel.tree", {
         if (ul.length) {
             ul.append(li);
         } else {
-            var ul = $('<ul/>');
+            ul = $('<ul/>');
             parentLi.append(ul.append(li));
         }
 
@@ -52,7 +52,7 @@ $.widget("daredevel.tree", {
         if (ul.length) {
             ul.append(li);
         } else {
-            var ul = $('<ul/>');
+            ul = $('<ul/>');
             this.options.core.element.append(ul.append(li));
         }
 
