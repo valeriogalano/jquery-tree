@@ -14,7 +14,7 @@ $.widget("daredevel.treeajax", {
      *
      * @private
      */
-    _create: function() {
+    _create:function () {
 
         var t = this;
 
@@ -25,7 +25,7 @@ $.widget("daredevel.treeajax", {
 
         // bind lazy loading on expand event
         if (this.options.dataSourceUrl) {
-            this.element.bind("treeexpand", function(event, element) {
+            this.element.bind("treeexpand", function (event, element) {
                 if ($(element).find('ul').length) {
                     return;
                 }
@@ -35,14 +35,14 @@ $.widget("daredevel.treeajax", {
 
         // bind edit on drop event
         if (this.options.dataEditUrl) {
-            this.element.bind("treemove", function(event, element) {
-                /** test if parent is not changed */
+            this.element.bind("treemove", function (event, element) {
+                /** @todo: test if parent is not changed */
                 t._notifyMove($(element));
             });
         }
 
         // add private methods to core component
-        this.options.core._treeajaxInitializeNode = function(li) {
+        this.options.core._treeajaxInitializeNode = function (li) {
             t._initializeNode(li);
         };
 
@@ -55,7 +55,7 @@ $.widget("daredevel.treeajax", {
      *
      * @param li node to initialize
      */
-    _initializeNode: function(li) {
+    _initializeNode:function (li) {
 
 //        var t = this;
 
@@ -64,22 +64,22 @@ $.widget("daredevel.treeajax", {
     /**
      * Fetch tree via ajax
      */
-    _lazyInit: function() {
+    _lazyInit:function () {
         var t = this;
 
         $.ajax({
-            url: this.options.dataSourceUrl,
+            url:this.options.dataSourceUrl,
             dataType:'json',
-            beforeSend: function() {
+            beforeSend:function () {
                 //alert('beforeSend');
             },
-            complete: function() {
+            complete:function () {
                 //alert('beforeSend');
             },
-            data: {
+            data:{
             },
-            success: function(data) {
-                $.each(data.nodes, function(key, value) {
+            success:function (data) {
+                $.each(data.nodes, function (key, value) {
                     t.options.core.addNode(value);
                 });
             }
@@ -93,18 +93,18 @@ $.widget("daredevel.treeajax", {
      *
      * @param parentLi node of which we want children
      */
-    _lazyLoad: function(parentLi) {
+    _lazyLoad:function (parentLi) {
         var t = this;
 
         $.ajax({
-            url: this.options.dataSourceUrl,
+            url:this.options.dataSourceUrl,
             dataType:'json',
-            data: {
-                node: parentLi.attr('id')
+            data:{
+                node:parentLi.attr('id')
             },
-            success: function(data) {
+            success:function (data) {
 
-                $.each(data.nodes, function(key, value) {
+                $.each(data.nodes, function (key, value) {
                     t.options.core.addNode(value, parentLi);
                 });
             }
@@ -116,23 +116,23 @@ $.widget("daredevel.treeajax", {
      *
      * @param li
      */
-    _notifyMove: function(li) {
+    _notifyMove:function (li) {
         var t = this;
 
         var parentLi = t.options.core.parentNode(li);
 
         $.ajax({
-            url: this.options.dataEditUrl,
+            url:this.options.dataEditUrl,
             dataType:'json',
-            data: {
-                node: li.attr('id'),
-                operation: 'move',
-                parent: parentLi.attr('id')
+            data:{
+                node:li.attr('id'),
+                operation:'move',
+                parent:parentLi.attr('id')
             },
-            beforeSend: function() {
+            beforeSend:function () {
                 alert('beforeSend');
             },
-            success: function(data) {
+            success:function (data) {
                 alert('ok');
             }
         });
@@ -141,7 +141,7 @@ $.widget("daredevel.treeajax", {
     /**
      * Default options values
      */
-    options: {
+    options:{
 
         /**
          * Defines url to request when tree modify operations happens.
@@ -152,7 +152,7 @@ $.widget("daredevel.treeajax", {
          * }
          * The error string will be shown to user.
          */
-        dataEditUrl: '',
+        dataEditUrl:'',
 
         /**
          * Defines url to request to get tree nodes for lazy loading.
@@ -179,8 +179,8 @@ $.widget("daredevel.treeajax", {
          *    ]
          * }
          */
-        dataSourceUrl: ''
-
+        dataSourceUrl:''
+//@todo: dataSource should be a function ?
     }
 
 });
