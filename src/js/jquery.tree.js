@@ -12,52 +12,63 @@
 $.widget("daredevel.tree", {
 
     /**
-     * Attach a node under passed parent
+     * Attach node li code under passed parent element at passed position
+     *
+     * @private
+     *
+     * @param li node to attach
+     * @param parent element to attach node to (can be another node or widget base element)
+     * @param position position of the node between brothers (expressed as positive integer)
+     */
+    _attachLi:function (li, parent, position) {
+
+        var ul = parent.find('ul:first');
+
+        if (ul.length) {
+            if ((undefined == position) || (ul.children('li').length < position)) {
+                ul.append(li);
+            } else {
+                ul.find('li:nth-child(' + position + '):first').before(li);
+            }
+        } else {
+            ul = $('<ul/>');
+            parent.append(ul.append(li));
+        }
+
+    },
+
+    /**
+     * Attach a node under passed parent (if no parent is passed, node is attached as root)
      *
      * @private
      *
      * @param li node to attach
      * @param parentLi node under which new node will be attached
+     * @param position position of the node between brothers (expressed as positive integer)
      */
-    _attachNode: function(li, parentLi) {
+    _attachNode:function (li, parentLi, position) {
 
-        // if no parent is passed, node will be attached as root
-//        if ((undefined == parentLi) || (parentLi[0] == this.options.core.element[0])) {
-        var ul = parentLi.find('ul:first');
+        if (undefined == parentLi) {
 
-        if (ul.length) {
-            ul.append(li);
+            var parent = this.options.core.element;
+
+            this._attachLi(li, parent, position);
+
+            //initialize nodes from core to call all components initialize methods
+            this.options.core._initializeNode(li);
+
         } else {
-            ul = $('<ul/>');
-            parentLi.append(ul.append(li));
+
+            var parent = parentLi;
+
+            this._attachLi(li, parent, position);
+
+            parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+
+            //initialize nodes from core to call all components initialize methods
+            this.options.core._initializeNode(li);
+            this.options.core._initializeNode(parent);
         }
-
-        parentLi.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
-
-        //initialize nodes from core to call all components initialize methods
-        this.options.core._initializeNode(li);
-        this.options.core._initializeNode(parentLi);
-    },
-
-
-    /**
-     * Attach node as root
-     *
-     * @param li
-     */
-    _attachRoot: function(li) {
-
-        var ul = this.options.core.element.find('ul:first');
-
-        if (ul.length) {
-            ul.append(li);
-        } else {
-            ul = $('<ul/>');
-            this.options.core.element.append(ul.append(li));
-        }
-
-        //initialize nodes from core to call all components initialize methods
-        this.options.core._initializeNode(li);
     },
 
     /**
@@ -70,7 +81,7 @@ $.widget("daredevel.tree", {
      * @param attributes object containing a list of new node's html elements attributes
      * @return a li element object
      */
-    _buildNode: function(attributes) {
+    _buildNode:function (attributes) {
 
         attributes = $.extend(true, this.options.defaultNodeAttributes, attributes);
 
@@ -113,7 +124,7 @@ $.widget("daredevel.tree", {
      *
      * 1) input type="checkbox" tag and label tag are mandatory only to use checkbox component
      */
-    _create: function() {
+    _create:function () {
 
         var t = this;
 
@@ -126,12 +137,12 @@ $.widget("daredevel.tree", {
         // initialize requested components
         this._initializeComponents();
 
-        this.element.find('li').each(function() {
+        this.element.find('li').each(function () {
             t._initializeNode($(this));
         });
 
         if (this.options.nodes != null) {
-            $.each(this.options.nodes, function(key, value) {
+            $.each(this.options.nodes, function (key, value) {
                 t.options.core.addNode(value);
             });
         }
@@ -144,7 +155,7 @@ $.widget("daredevel.tree", {
      *
      * @todo complete destroy method
      */
-    _destroy: function() {
+    _destroy:function () {
         $.Widget.prototype.destroy.call(this);
     },
 
@@ -155,7 +166,7 @@ $.widget("daredevel.tree", {
      *
      * @param li node to detach
      */
-    _detachNode: function(li) {
+    _detachNode:function (li) {
 
         var parentLi = this.options.core.parentNode(li);
 
@@ -177,7 +188,7 @@ $.widget("daredevel.tree", {
      *
      * @private
      */
-    _initializeComponents: function() {
+    _initializeComponents:function () {
         for (var i in this.options.components) {
             var initializeComponent = 'this.element.tree' + this.options.components[i] + '(this.options)';
             eval(initializeComponent);
@@ -191,7 +202,7 @@ $.widget("daredevel.tree", {
      *
      * @param li node to initialize
      */
-    _initializeNode: function(li) {
+    _initializeNode:function (li) {
         li.children('span:last').addClass(this.options.core.widgetBaseClass + '-label');
 
         // call each active component initialize method
@@ -209,21 +220,22 @@ $.widget("daredevel.tree", {
      *
      * @param attributes new node attributes
      * @param parentLi node under which new node will be attached
+     * @param position position of the node between brothers (expressed as positive integer)
      */
-    addNode: function(attributes, parentLi) {
+    addNode:function (attributes, parentLi, position) {
 
         var t = this;
 
         var li = this._buildNode(attributes);
 
-        if (undefined == parentLi) {
-            this._attachRoot(li);
+        if ((undefined == parentLi) || 0 == parentLi.length) {
+            this._attachNode($(li), undefined, position);
         } else {
-            this._attachNode(li, parentLi);
+            this._attachNode($(li), $(parentLi), position);
         }
 
         if (undefined != attributes.children) {
-            $.each(attributes.children, function(value, key) {
+            $.each(attributes.children, function (value, key) {
                 t.addNode(value, li);
             });
         }
@@ -238,7 +250,7 @@ $.widget("daredevel.tree", {
      *
      * @param li node to check
      */
-    isRoot: function(li) {
+    isRoot:function (li) {
 
         li = $(li);
 
@@ -250,19 +262,20 @@ $.widget("daredevel.tree", {
     /**
      * Move a node under new parent
      *
-     * @param li
-     * @param parentLi
+     * @param li node to move
+     * @param parentLi node under which node will be moved
+     * @param position position of the node between brothers (expressed as positive integer)
      */
-    moveNode: function(li, parentLi) {
+    moveNode:function (li, parentLi, position) {
 
         this._detachNode($(li));
 
-        if (undefined == parentLi) {
-            this._attachRoot($(li));
+        if ((undefined == parentLi) || 0 == parentLi.length) {
+            this._attachNode($(li), undefined, position);
         } else {
-            this._attachNode($(li), $(parentLi));
+            this._attachNode($(li), $(parentLi), position);
         }
-        
+
         this._trigger('move', true, $(li));
     },
 
@@ -274,7 +287,7 @@ $.widget("daredevel.tree", {
      * @param li node as jQuery object or selector
      * @return parent li
      */
-    parentNode: function(li) {
+    parentNode:function (li) {
         return $(li).parents('li:first');
     },
 
@@ -283,7 +296,7 @@ $.widget("daredevel.tree", {
      *
      * @param li node to delete (can be jQuery object or selector)
      */
-    removeNode: function(li) {
+    removeNode:function (li) {
 
         this._detachNode($(li));
 
@@ -294,32 +307,32 @@ $.widget("daredevel.tree", {
     /**
      * Default options values.
      */
-    options: {
+    options:{
 
         /**
          * Defines components to load.
          */
-        components: [],
+        components:[],
 
         /**
          * Defines default node attributes to use in node adding if different specified in addNode() method
          */
-        defaultNodeAttributes: {
-            span: {
-                html: 'new node'
+        defaultNodeAttributes:{
+            span:{
+                html:'new node'
             },
-            li: {
-                'class': 'leaf'
+            li:{
+                'class':'leaf'
             },
-            input: {
-                type: 'checkbox'
+            input:{
+                type:'checkbox'
             }
         },
 
         /**
-         * 
+         *
          */
-        nodes: null
+        nodes:null
 
     }
 });
