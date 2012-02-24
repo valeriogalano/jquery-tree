@@ -16,7 +16,7 @@ $.widget("daredevel.treecheckbox", {
      * @param li node
      * @return true if all descendant checked
      */
-    _allDescendantChecked: function(li) {
+    _allDescendantChecked:function (li) {
         return (li.find('li input:checkbox:not(:checked)').length == 0);
     },
 
@@ -28,7 +28,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _checkAncestors: function(li) {
+    _checkAncestors:function (li) {
         li.parentsUntil(this.options.core.widgetBaseClass).filter('li').find('input:checkbox:first:not(:checked)').prop('checked', true).change();
     },
 
@@ -40,7 +40,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _checkDescendants: function(li) {
+    _checkDescendants:function (li) {
         li.find('li input:checkbox:not(:checked)').prop('checked', true).change();
     },
 
@@ -52,12 +52,12 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _checkOthers: function(li) {
+    _checkOthers:function (li) {
         var t = this;
         li.addClass('exclude');
         li.parents('li').addClass('exclude');
         li.find('li').addClass('exclude');
-        $(this.element).find('li').each(function() {
+        $(this.element).find('li').each(function () {
             if (!$(this).hasClass('exclude')) {
                 $(this).find('input:checkbox:first:not(:checked)').prop('checked', true).change();
             }
@@ -70,64 +70,64 @@ $.widget("daredevel.treecheckbox", {
      *
      * @private
      */
-    _create: function() {
+    _create:function () {
 
         var t = this;
 
         // bind node uncheck event
-        this.element.find('input:checkbox:not(:checked)').live('click', function() {
+        this.element.find('input:checkbox:not(:checked)').live('click', function () {
             t.uncheck(t.options.core.parentNode($(this)));
         });
 
         // bind node check event
-        this.element.find('input:checkbox:checked').live('click', function() {
+        this.element.find('input:checkbox:checked').live('click', function () {
             t.check(t.options.core.parentNode($(this)));
         });
 
         // bind collapse on uncheck event
         if (this.options.onUncheck.node == 'collapse') {
-            this.element.find('input:checkbox:not(:checked)').live("click", function() {
+            this.element.find('input:checkbox:not(:checked)').live("click", function () {
                 t.options.core.collapse(t.options.core.parentNode($(this)));
             });
         } else
 
         // bind expand on uncheck event
         if (this.options.onUncheck.node == 'expand') {
-            this.element.find('input:checkbox:not(:checked)').live("click", function() {
+            this.element.find('input:checkbox:not(:checked)').live("click", function () {
                 t.options.core.expand(t.options.core.parentNode($(this)));
             });
         }
 
         // bind collapse on check event
         if (this.options.onCheck.node == 'collapse') {
-            this.element.find('input:checkbox:checked').live("click", function() {
+            this.element.find('input:checkbox:checked').live("click", function () {
                 t.options.core.collapse(t.options.core.parentNode($(this)));
             });
         } else
 
         // bind expand on check event
         if (this.options.onCheck.node == 'expand') {
-            this.element.find('input:checkbox:checked').live("click", function() {
+            this.element.find('input:checkbox:checked').live("click", function () {
                 t.options.core.expand(t.options.core.parentNode($(this)));
             });
         }
 
         // add public methods to core component
-        this.options.core.check = function(li) {
+        this.options.core.check = function (li) {
             t.check(li);
         };
-        this.options.core.checkAll = function() {
+        this.options.core.checkAll = function () {
             t.checkAll();
         };
-        this.options.core.uncheck = function(li) {
+        this.options.core.uncheck = function (li) {
             t.uncheck(li);
         };
-        this.options.core.uncheckAll = function() {
+        this.options.core.uncheckAll = function () {
             t.uncheckAll();
         };
 
         // add private methods to core component
-        this.options.core._treecheckboxInitializeNode = function(li) {
+        this.options.core._treecheckboxInitializeNode = function (li) {
             t._initializeNode(li);
         };
     },
@@ -138,7 +138,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node to initialize
      */
-    _initializeNode: function(li) {
+    _initializeNode:function (li) {
 
     },
 
@@ -150,7 +150,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _uncheckAncestors: function(li) {
+    _uncheckAncestors:function (li) {
         li.parentsUntil(this.options.core.widgetBaseClass).filter('li').find('input:checkbox:first:checked').prop('checked', false).change();
     },
 
@@ -162,7 +162,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _uncheckDescendants: function(li) {
+    _uncheckDescendants:function (li) {
         li.find('li input:checkbox:checked').prop('checked', false).change();
     },
 
@@ -174,12 +174,12 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node
      */
-    _uncheckOthers: function(li) {
+    _uncheckOthers:function (li) {
         var t = this;
         li.addClass('exclude');
         li.parents('li').addClass('exclude');
         li.find('li').addClass('exclude');
-        $(this.element).find('li').each(function() {
+        $(this.element).find('li').each(function () {
             if (!$(this).hasClass('exclude')) {
                 $(this).find('input:checkbox:first:checked').prop('checked', false).change();
             }
@@ -193,7 +193,7 @@ $.widget("daredevel.treecheckbox", {
      * @public
      * @param li node to check
      */
-    check: function(li) {
+    check:function (li) {
 
         li = $(li);
 
@@ -242,7 +242,7 @@ $.widget("daredevel.treecheckbox", {
      *
      * @public
      */
-    checkAll: function() {
+    checkAll:function () {
         $(this.element).find('input:checkbox:not(:checked)').prop('checked', true).change();
     },
 
@@ -252,7 +252,7 @@ $.widget("daredevel.treecheckbox", {
      * @public
      * @param li node to uncheck
      */
-    uncheck: function(li) {
+    uncheck:function (li) {
 
         li = $(li);
 
@@ -294,14 +294,14 @@ $.widget("daredevel.treecheckbox", {
      *
      * @public
      */
-    uncheckAll: function() {
+    uncheckAll:function () {
         $(this.element).find('input:checkbox:checked').prop('checked', false).change();
     },
 
     /**
      * Default options values.
      */
-    options: {
+    options:{
 
         /**
          * Defines which actions trigger when a node is checked.
@@ -310,27 +310,27 @@ $.widget("daredevel.treecheckbox", {
          * 2) descendants
          * 3) ancestors
          */
-        onCheck: {
+        onCheck:{
 
             /**
              * Available values: null, 'check', 'uncheck', 'checkIfFull'.
              */
-            ancestors: 'check',
+            ancestors:'check',
 
             /**
              * Available values: null, 'check', 'uncheck'.
              */
-            descendants: 'check',
+            descendants:'check',
 
             /**
              * Available values: null, 'collapse', 'expand'.
              */
-            node: '',//@todo missing order
+            node:'', //@todo missing order
 
             /**
              * Available values: null, 'check', 'uncheck'.
              */
-            others: ''
+            others:''
         },
 
         /**
@@ -340,27 +340,27 @@ $.widget("daredevel.treecheckbox", {
          * 2) descendants
          * 3) ancestors
          */
-        onUncheck: {
+        onUncheck:{
 
             /**
              * Available values: null, 'check', 'uncheck'.
              */
-            ancestors: '',
+            ancestors:'',
 
             /**
              * Available values: null, 'check', 'uncheck'.
              */
-            descendants: 'uncheck',
+            descendants:'uncheck',
 
             /**
              * Available values: null, 'collapse', 'expand'.
              */
-            node: '',//@todo missing order
+            node:'', //@todo missing order
 
             /**
              * Available values: null, 'check', 'uncheck'.
              */
-            others: ''
+            others:''
         }
 
     }

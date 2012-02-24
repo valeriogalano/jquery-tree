@@ -14,12 +14,12 @@ $.widget("daredevel.treecollapse", {
      *
      * @private
      */
-    _create: function() {
+    _create:function () {
 
         var t = this
 
         // bind collapse/expand event
-        this.element.find('li span.' + this.widgetBaseClass + '-anchor').live("click", function() {
+        this.element.find('li span.' + this.widgetBaseClass + '-anchor').live("click", function () {
             var li = t.options.core.parentNode($(this));
 
             if (li.hasClass('collapsed')) {
@@ -32,21 +32,21 @@ $.widget("daredevel.treecollapse", {
         });
 
         // add public methods to core component
-        this.options.core.collapse = function(li) {
+        this.options.core.collapse = function (li) {
             t.collapse(li);
         };
-        this.options.core.collapseAll = function() {
+        this.options.core.collapseAll = function () {
             t.collapseAll();
         };
-        this.options.core.expand = function(li) {
+        this.options.core.expand = function (li) {
             t.expand(li);
         };
-        this.options.core.expandAll = function() {
+        this.options.core.expandAll = function () {
             t.expandAll();
         };
 
         // add private methods to core component
-        this.options.core._treecollapseInitializeNode = function(li) {
+        this.options.core._treecollapseInitializeNode = function (li) {
             t._initializeNode(li);
         };
 
@@ -59,7 +59,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li node to initialize
      */
-    _initializeNode: function(li) {
+    _initializeNode:function (li) {
 
         var t = this;
 
@@ -67,7 +67,7 @@ $.widget("daredevel.treecollapse", {
         var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
         if (anchor.length < 1) {
             li.prepend($('<span />', {
-                'class': this.widgetBaseClass + '-anchor'
+                'class':this.widgetBaseClass + '-anchor'
             }));
         }
 
@@ -98,7 +98,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li node to mark
      */
-    _markAsCollapsed: function(li) {
+    _markAsCollapsed:function (li) {
 
         var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
 
@@ -118,7 +118,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li node to mark
      */
-    _markAsExpanded: function(li) {
+    _markAsExpanded:function (li) {
 
         var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
 
@@ -138,7 +138,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li  node to mark
      */
-    _markAsLeaf: function(li) {
+    _markAsLeaf:function (li) {
 
         var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
 
@@ -156,7 +156,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li  node to unmark
      */
-    _unmark: function() {
+    _unmark:function () {
         li.removeClass("collapsed expanded leaf");
     },
 
@@ -169,7 +169,7 @@ $.widget("daredevel.treecollapse", {
      * @param effect true if use effects
      * @param force true to collpase a node already marked as collapsed
      */
-    collapse: function(li, effect, force) {
+    collapse:function (li, effect, force) {
 
         li = $(li);
 
@@ -190,7 +190,7 @@ $.widget("daredevel.treecollapse", {
         if (effect) {
             li.children("ul").hide(this.options.collapseEffect, {}, this.options.collapseDuration);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 t._markAsCollapsed(li, t.options);
             }, t.options.collapseDuration);
         } else {
@@ -205,9 +205,9 @@ $.widget("daredevel.treecollapse", {
      *
      * @private
      */
-    collapseAll: function() {
+    collapseAll:function () {
         var t = this;
-        $(this.element).find('li.expanded').each(function() {
+        $(this.element).find('li.expanded').each(function () {
             t.collapse($(this));
         });
     },
@@ -220,7 +220,7 @@ $.widget("daredevel.treecollapse", {
      * @param li node to expand
      * @param effect true if use effects
      */
-    expand: function(li, effect, force) {
+    expand:function (li, effect, force) {
 
         li = $(li);
 
@@ -229,7 +229,7 @@ $.widget("daredevel.treecollapse", {
         }
 
         if (!force && li.hasClass('expanded')) {
-             return;
+            return;
         }
 
         if (effect == undefined) {
@@ -241,7 +241,7 @@ $.widget("daredevel.treecollapse", {
         if (effect) {
             li.children("ul").show(t.options.expandEffect, {}, t.options.expandDuration);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 t._markAsExpanded(li, t.options);
             }, t.options.expandDuration);
         } else {
@@ -257,9 +257,9 @@ $.widget("daredevel.treecollapse", {
      *
      * @public
      */
-    expandAll: function() {
+    expandAll:function () {
         var t = this;
-        $(this.element).find('li.collapsed').each(function() {
+        $(this.element).find('li.collapsed').each(function () {
             t.expand($(this));
         });
     },
@@ -267,13 +267,13 @@ $.widget("daredevel.treecollapse", {
     /**
      * Default options values
      */
-    options: {
+    options:{
 
         /**
          * Defines duration of collapse effect in ms.
          * Works only if collapseEffect is not null.
          */
-        collapseDuration: 500,
+        collapseDuration:500,
 
         /**
          * Defines the effect used for collapse node.
@@ -304,7 +304,7 @@ $.widget("daredevel.treecollapse", {
         /**
          * Defines jQueryUI icon class used for leaf anchor.
          */
-        leafUiIcon: ''
+        leafUiIcon:''
 
     }
 
