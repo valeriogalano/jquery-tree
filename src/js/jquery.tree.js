@@ -235,7 +235,7 @@ $.widget("daredevel.tree", {
         }
 
         if (undefined != attributes.children) {
-            $.each(attributes.children, function (value, key) {
+            $.each(attributes.children, function (key, value) {
                 t.addNode(value, li);
             });
         }
