@@ -5,6 +5,7 @@
 
 .daredevel-tree li span.daredevel-tree-label {
     cursor: default;
+    z-index: 1;
 }
 
 .daredevel-tree li span.daredevel-treecollapse-anchor {
@@ -14,6 +15,34 @@
     left: -16px;
 }
 
+.daredevel-tree li span.prepended {
+    position: absolute;
+    left: 0px;
+    top: -5px;
+    z-index: 2;
+    visibility: hidden;
+    height: 10px;
+    width: 100px;
+    overflow: hidden;
+    background-image: url("../images/anchor.gif");
+}
+
+.daredevel-tree li span.prepended.over {
+    visibility: visible;
+}
+
+.daredevel-tree li span.droppable-label {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    z-index: 2;
+    visibility: hidden;
+    height: 8px;
+    width: 100px;
+    overflow: hidden;
+    border: solid 1px;
+}
+
 .daredevel-tree-contextmenu {
     list-style-type: none;
     border: 1px solid #aaa;
@@ -21,4 +50,3 @@
     background: #fff;
     display: none;
 }
-

@@ -14,12 +14,12 @@ $.widget("daredevel.treednd", {
      *
      * @private
      */
-    _create: function() {
+    _create:function () {
 
         var t = this;
 
         // add private methods to core component
-        this.options.core._treedndInitializeNode = function(li) {
+        this.options.core._treedndInitializeNode = function (li) {
             t._initializeNode(li);
         };
     },
@@ -31,24 +31,61 @@ $.widget("daredevel.treednd", {
      *
      * @param li node to initialize
      */
-    _initializeNode: function(li) {
+    _initializeNode:function (li) {
 
         var t = this;
 
+        var span = $('<span/>', {
+            class:'prepended',
+            html:'<br />'
+        }).droppable({
+                hoverClass:'over',
+                drop:function (event, ui) {
+
+                    var parentLi = $(this).closest('li').parent().closest('li');
+
+                    // prevent loops
+                    if ($(ui.draggable.parent('li')).find(parentLi).length) {
+                        return;
+                    }
+
+                    var position = $($(this).parent('li')).index() + 1;
+
+                    t.options.core.moveNode(ui.draggable.parent('li'), parentLi, position);
+                    t._trigger('drop', event, {draggable:ui.draggable, droppable:parentLi});
+                },
+                over: function(event, ui) {
+//                    $(this).parent('li').prepend('<li>xxx</li>');
+                    //$(this).parent('li').addClass('over');
+                },
+                out: function(event, ui) {
+                    //$(this).parent('li').removeClass('over');
+                }
+            });
+
+        $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').after(span);
+
         $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').draggable({
-            start: function(event, ui) {
-                $(this).parent('li').find('ul').css('visibility', 'hidden');
+            start:function (event, ui) {
+                $(this).parent('li').find('ul, .prepended').css('visibility', 'hidden');
+                $(this).parent('li').find('.droppable-label').css('display', 'none');
             },
-            stop: function(event, ui) {
+            stop:function (event, ui) {
                 $(this).parent('li').find('ul').css('visibility', 'visible');
+                $(this).parent('li').find('.prepended').css('visibility', '');
+                $(this).parent('li').find('.droppable-label').css('display', 'inherit');
             },
-            revert: true,
-            revertDuration: 0
+            revert:true,
+            revertDuration:0
         });
 
-        $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').droppable({
-            hoverClass: "ui-state-hover",
-            drop: function(event, ui) {
+        var span = $('<span/>', {
+            class:'droppable-label',
+            html:'<br />'
+        }).droppable({
+                //hoverClass:'over',
+//            hoverClass:"ui-state-hover",
+            drop:function (event, ui) {
                 var li = $(this).closest('li');
 
                 // prevent loops
@@ -56,17 +93,28 @@ $.widget("daredevel.treednd", {
                     return;
                 }
 
-                t.options.core.moveNode(ui.draggable.parent('li'), li);
-                t._trigger('drop', true, {draggable: ui.draggable, droppable: li});
+                t.options.core.moveNode(ui.draggable.parent('li'), li, 1);
+                t._trigger('drop', event, {draggable:ui.draggable, droppable:li});
+            },
+            over: function(event, ui) {
+                $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').addClass('ui-state-hover');
+            },
+            out: function(event, ui) {
+                $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').removeClass('ui-state-hover');
             }
         });
+
+        $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').after(span);
+
     },
 
     /**
      * Default options values.
      */
-    options: {
+    options:{
+        drop:function (event, element) {
 
+        }
     }
 
 });
