@@ -28,6 +28,9 @@ $.widget("daredevel.tree", {
             if ((undefined == position) || (ul.children('li').length < position)) {
                 ul.append(li);
             } else {
+                if (position == 0) {
+                    position = position + 1;
+                }
                 ul.find('li:nth-child(' + position + '):first').before(li);
             }
         } else {
@@ -235,7 +238,7 @@ $.widget("daredevel.tree", {
         }
 
         if (undefined != attributes.children) {
-            $.each(attributes.children, function (key, value) {
+            $.each(attributes.children, function (value, key) {
                 t.addNode(value, li);
             });
         }
