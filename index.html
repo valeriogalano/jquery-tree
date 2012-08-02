@@ -29,7 +29,6 @@
     <script type="text/javascript" src="src/js/jquery.treecollapse.js"></script>
     <script type="text/javascript" src="src/js/jquery.treecontextmenu.js"></script>
     <script type="text/javascript" src="src/js/jquery.treednd.js"></script>
-<!--    <script type="text/javascript" src="src/js/jquery.treemanipulate.js"></script> -->
     <script type="text/javascript" src="src/js/jquery.treeselect.js"></script>
     <link rel="stylesheet" type="text/css" href="src/css/jquery.tree.css"/>
     <!-- end tree configuration -->
@@ -60,7 +59,7 @@
             <p>This example show all script basic features.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-0 div').tree({
-                    components: ['ajax', 'checkbox', 'collapse', 'contextmenu', 'dnd', /*'manipulate',*/ 'select']
+                    components: ['ajax', 'checkbox', 'collapse', 'contextmenu', 'dnd', 'select']
                 });
             </code>
             <div>
@@ -138,7 +137,7 @@
             <p>This example show how to retrieve nodes from an ajax call.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-2 div').tree({
-                    components: ['ajax', 'collapse'/*, 'manipulate'*/],
+                    components: ['ajax', 'collapse'],
                     dataSourceUrl: 'demo/lazy.json'
                 });
             </code>
@@ -339,27 +338,27 @@
                 });
 
                 $('#example-5-checkAll').click(function(){
-                    $('#example-5 ul:first').tree('checkAll');
+                    $('#example-5 div').tree('checkAll');
                 });
 
                 $('#example-5-uncheckAll').click(function(){
-                    $('#example-5 ul:first').tree('uncheckAll');
+                    $('#example-5 div').tree('uncheckAll');
                 });
 
                 $('#example-5-collapse').click(function(){
-                    $('#example-5 ul:first').tree('collapse', $('#example-5-node22'));
+                    $('#example-5 div').tree('collapse', $('#example-5-node22'));
                 });
 
                 $('#example-5-expand').click(function(){
-                    $('#example-5 ul:first').tree('expand', $('#example-5-node22'));
+                    $('#example-5 div').tree('expand', $('#example-5-node22'));
                 });
 
                 $('#example-5-check').click(function(){
-                    $('#example-5 ul:first').tree('check', $('#example-5-node22'));
+                    $('#example-5 div').tree('check', $('#example-5-node22'));
                 });
 
                 $('#example-5-uncheck').click(function(){
-                    $('#example-5 ul:first').tree('uncheck', $('#example-5-node22'));
+                    $('#example-5 div').tree('uncheck', $('#example-5-node22'));
                 });
             </code>
             <button id="example-5-checkAll">Check all nodes</button>
@@ -430,7 +429,7 @@
                     }
                 });
                 $('#example-6-button').bind('click', function(){
-                    var selected = $('#example-11 ul:first').tree('selected');
+                    var selected = $('#example-6 div').tree('selected');
                     alert('Selected:' + selected.find('span.daredevel-tree-label:first').text());
                 });
             </code>
@@ -612,11 +611,11 @@
                     components: ['collapse']
                 });
 
-                $('#example-9 ul:first').bind('treecollapse', function() {
+                $('#example-9 div').bind('treecollapse', function() {
                     alert('collapse event triggered');
                 });
 
-                $('#example-9 ul:first').bind('treeexpand', function() {
+                $('#example-9 div').bind('treeexpand', function() {
                     alert('expand event triggered');
                 });
             </code>
@@ -671,7 +670,7 @@
             <p>This example show how to manipulate tree.</p>
             <code class="jquery" lang="text/javascript">
                 var tree10 = $('#example-10 div').tree({
-                    components: ['checkbox', 'collapse', 'dnd', /*'manipulate',*/ 'select']
+                    components: ['checkbox', 'collapse', 'dnd', 'select']
                 });
 
                 $('#example-10-add').click(function(){
