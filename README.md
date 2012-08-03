@@ -4,6 +4,7 @@ daredevel's jQuery Tree is a jQuery UI widget that you can use to add advanced f
 It's designed to be fast, lightweight, simple to deploy and setup and highly configurable.
 
 # Features
+* lightweight (less than 18Kb)
 * tree manipulation methods
 * drag and drop
 * collapse/expand (derived from jQuery checkboxtree plugin)
