@@ -36,8 +36,8 @@ $.widget("daredevel.treednd", {
         var t = this;
 
         var span = $('<span/>', {
-            class:'prepended',
-            html:'<br />'
+            'class':'prepended',
+            html:'<br/>'
         }).droppable({
                 hoverClass:'over',
                 drop:function (event, ui) {
@@ -53,13 +53,6 @@ $.widget("daredevel.treednd", {
 
                     t.options.core.moveNode(ui.draggable.parent('li'), parentLi, position);
                     t._trigger('drop', event, {draggable:ui.draggable, droppable:parentLi});
-                },
-                over: function(event, ui) {
-//                    $(this).parent('li').prepend('<li>xxx</li>');
-                    //$(this).parent('li').addClass('over');
-                },
-                out: function(event, ui) {
-                    //$(this).parent('li').removeClass('over');
                 }
             });
 
@@ -80,29 +73,27 @@ $.widget("daredevel.treednd", {
         });
 
         var span = $('<span/>', {
-            class:'droppable-label',
-            html:'<br />'
+            'class':'droppable-label',
+            html:'<br/>'
         }).droppable({
-                //hoverClass:'over',
-//            hoverClass:"ui-state-hover",
-            drop:function (event, ui) {
-                var li = $(this).closest('li');
+                drop:function (event, ui) {
+                    var li = $(this).closest('li');
 
-                // prevent loops
-                if ($(ui.draggable.parent('li')).find(li).length) {
-                    return;
+                    // prevent loops
+                    if ($(ui.draggable.parent('li')).find(li).length) {
+                        return;
+                    }
+
+                    t.options.core.moveNode(ui.draggable.parent('li'), li, 1);
+                    t._trigger('drop', event, {draggable:ui.draggable, droppable:li});
+                },
+                over:function (event, ui) {
+                    $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').addClass('ui-state-hover');
+                },
+                out:function (event, ui) {
+                    $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').removeClass('ui-state-hover');
                 }
-
-                t.options.core.moveNode(ui.draggable.parent('li'), li, 1);
-                t._trigger('drop', event, {draggable:ui.draggable, droppable:li});
-            },
-            over: function(event, ui) {
-                $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').addClass('ui-state-hover');
-            },
-            out: function(event, ui) {
-                $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').removeClass('ui-state-hover');
-            }
-        });
+            });
 
         $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').after(span);
 
