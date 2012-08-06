@@ -1,0 +1,6 @@
+.daredevel-tree li span.daredevel-treecollapse-anchor {
+    cursor: default;
+    position: absolute;
+    top: 1px;
+    left: -16px;
+}

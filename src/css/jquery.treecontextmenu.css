@@ -1,0 +1,7 @@
+.daredevel-tree-contextmenu {
+    list-style-type: none;
+    border: 1px solid #aaa;
+    position: absolute;
+    background: #fff;
+    display: none;
+}
