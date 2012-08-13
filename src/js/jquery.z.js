@@ -1,0 +1,2 @@
+/*! End noConflict() support*/
+}(jQuery));
