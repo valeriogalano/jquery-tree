@@ -1,53 +1,203 @@
 /*! Start noConflict() support*/
 (function($){
 /*!
- * tree - jQuery Tree Plugin - ajax component
+ * tree - jQuery Tree Plugin
  *
  * @author Valerio Galano <v.galano@daredevel.com>
  *
  * @license MIT
  *
  * @see http://tree.daredevel.com
+ *
+ * @version 0.1
  */
-$.widget("daredevel.treeajax", {
+$.widget("daredevel.tree", {
 
     /**
-     * Initialize plugin
+     * Attach node li code under passed parent element at passed position
      *
      * @private
+     *
+     * @param li node to attach
+     * @param parent element to attach node to (can be another node or widget base element)
+     * @param position position of the node between brothers (expressed as positive integer)
+     */
+    _attachLi:function (li, parent, position) {
+
+        var ul = parent.find('ul:first');
+
+        if (ul.length) {
+            if ((undefined == position) || (ul.children('li').length < position)) {
+                ul.append(li);
+            } else {
+                if (position == 0) {
+                    position = position + 1;
+                }
+                ul.find('li:nth-child(' + position + '):first').before(li);
+            }
+        } else {
+            ul = $('<ul/>');
+            parent.append(ul.append(li));
+        }
+
+    },
+
+    /**
+     * Attach a node under passed parent (if no parent is passed, node is attached as root)
+     *
+     * @private
+     *
+     * @param li node to attach
+     * @param parentLi node under which new node will be attached
+     * @param position position of the node between brothers (expressed as positive integer)
+     */
+    _attachNode:function (li, parentLi, position) {
+
+        if (undefined == parentLi) {
+
+            var parent = this.options.core.element;
+
+            this._attachLi(li, parent, position);
+
+            //initialize nodes from core to call all components initialize methods
+            this.options.core._initializeNode(li);
+
+        } else {
+
+            var parent = parentLi;
+
+            this._attachLi(li, parent, position);
+
+            parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+
+            //initialize nodes from core to call all components initialize methods
+            this.options.core._initializeNode(li);
+            this.options.core._initializeNode(parent);
+        }
+    },
+
+    /**
+     * Create a new node object
+     *
+     * Attributes must contains a list of attributes for html elements of the node.
+     *
+     * @private
+     *
+     * @param attributes object containing a list of new node's html elements attributes
+     * @return a li element object
+     */
+    _buildNode:function (attributes) {
+
+        attributes = $.extend(true, this.options.defaultNodeAttributes, attributes);
+
+        // create new node label
+        var span = $('<span/>', attributes.span);
+
+        // create node
+        var li = $('<li/>', attributes.li);
+
+        // if checkbox component is active, new node must contain checkbox input
+        if ($.inArray('checkbox', this.options.components) > -1) {
+            var input = $('<input/>',
+                attributes.input
+            );
+            li.append(input);
+        }
+
+        li.append(span);
+
+        return li;
+    },
+
+    /**
+     * Initialize plugin.
+     *
+     * @private
+     *
+     * @note Base tree structure must be something like this:
+     *
+     * <div id="tree">
+     *   <ul>
+     *     <li id="node1" class="expanded"><input type="checkbox"><label>Node 1</label><span>Node 1</span>
+     *       <ul>
+     *         <li><input type="checkbox"><label>Node 1.1</label>
+     *         <li><input type="checkbox"><label>Node 1.2</label>
+     *       </ul>
+     *     </li>
+     *   </ul>
+     * </div>
+     *
+     * 1) input type="checkbox" tag and label tag are mandatory only to use checkbox component
      */
     _create:function () {
 
         var t = this;
 
-        // initialize ajax nodes
-        if (this.options.dataSourceUrl) {
-            t._lazyInit();
-        }
+        // add core widget to options so components can add methods
+        this.options.core = this;
 
-        // bind lazy loading on expand event
-        if (this.options.dataSourceUrl) {
-            this.element.bind("treeexpand", function (event, element) {
-                if ($(element).find('ul').length) {
-                    return;
-                }
-                t._lazyLoad($(element));
+        // add jQueryUI css widget classes
+        this.element.addClass('ui-widget ui-widget-content ' + this.widgetBaseClass);
+
+        // initialize requested components
+        this._initializeComponents();
+
+        this.element.find('li').each(function () {
+            t._initializeNode($(this));
+        });
+
+        if (this.options.nodes != null) {
+            $.each(this.options.nodes, function (key, value) {
+                t.options.core.addNode(value);
             });
         }
+    },
 
-        // bind edit on drop event
-        if (this.options.dataEditUrl) {
-            this.element.bind("treemove", function (event, element) {
-                /** @todo: test if parent is not changed */
-                t._notifyMove($(element));
-            });
+    /**
+     * Destroy plugin
+     *
+     * @private
+     *
+     * @todo complete destroy method
+     */
+    _destroy:function () {
+        $.Widget.prototype.destroy.call(this);
+    },
+
+    /**
+     * Detach a node (actually don't delete it)
+     *
+     * @private
+     *
+     * @param li node to detach
+     */
+    _detachNode:function (li) {
+
+        var parentLi = this.options.core.parentNode(li);
+
+        var ul = parentLi.find('ul:first');
+
+        if (ul.children().length == 1) {
+            ul.detach();
+            parentLi.removeClass('collapsed expanded').addClass('leaf') //@todo find right way to do this
+        } else {
+            li.detach();
         }
 
-        // add private methods to core component
-        this.options.core._treeajaxInitializeNode = function (li) {
-            t._initializeNode(li);
-        };
+        //initialize node from core to call all components initialize methods
+        this.options.core._initializeNode(parentLi);
+    },
 
+    /**
+     * Initialize requested components
+     *
+     * @private
+     */
+    _initializeComponents:function () {
+        for (var i in this.options.components) {
+            var initializeComponent = 'this.element.tree' + this.options.components[i] + '(this.options)';
+            eval(initializeComponent);
+        }
     },
 
     /**
@@ -58,133 +208,138 @@ $.widget("daredevel.treeajax", {
      * @param li node to initialize
      */
     _initializeNode:function (li) {
+        li.children('span:last').addClass(this.options.core.widgetBaseClass + '-label');
 
-//        var t = this;
-
+        // call each active component initialize method
+        for (var i in this.options.components) {
+            var componentInitializeNode = 'this._tree' + this.options.components[i] + 'InitializeNode(li)';
+            eval(componentInitializeNode);
+        }
     },
 
+
     /**
-     * Fetch tree via ajax
+     * Add a new node as children of passed one
+     *
+     * @public
+     *
+     * @param attributes new node attributes
+     * @param parentLi node under which new node will be attached
+     * @param position position of the node between brothers (expressed as positive integer)
      */
-    _lazyInit:function () {
+    addNode:function (attributes, parentLi, position) {
+
         var t = this;
 
-        $.ajax({
-            url:this.options.dataSourceUrl,
-            dataType:'json',
-            beforeSend:function () {
-                //alert('beforeSend');
-            },
-            complete:function () {
-                //alert('beforeSend');
-            },
-            data:{
-            },
-            success:function (data) {
-                $.each(data.nodes, function (key, value) {
-                    t.options.core.addNode(value);
-                });
-            }
-        });
+        var li = this._buildNode(attributes);
+
+        if ((undefined == parentLi) || 0 == parentLi.length) {
+            this._attachNode($(li), undefined, position);
+        } else {
+            this._attachNode($(li), $(parentLi), position);
+        }
+
+        if (undefined != attributes.children) {
+            $.each(attributes.children, function (value, key) {
+                t.addNode(value, li);
+            });
+        }
+
+        t._trigger('add', true, li);
     },
 
     /**
-     * Fetch node's children via ajax
+     * Check if passed node is a root
      *
-     * @private
+     * @public
      *
-     * @param parentLi node of which we want children
+     * @param li node to check
      */
-    _lazyLoad:function (parentLi) {
-        var t = this;
+    isRoot:function (li) {
 
-        $.ajax({
-            url:this.options.dataSourceUrl,
-            dataType:'json',
-            data:{
-                node:parentLi.attr('id')
-            },
-            success:function (data) {
+        li = $(li);
 
-                $.each(data.nodes, function (key, value) {
-                    t.options.core.addNode(value, parentLi);
-                });
-            }
-        });
+        var parents = li.parentsUntil('.' + this.widgetBaseClass);
+
+        return 0 == parents.length;
     },
 
     /**
-     * Send move operation data via ajax
+     * Move a node under new parent
      *
-     * @param li
+     * @param li node to move
+     * @param parentLi node under which node will be moved
+     * @param position position of the node between brothers (expressed as positive integer)
      */
-    _notifyMove:function (li) {
-        var t = this;
+    moveNode:function (li, parentLi, position) {
 
-        var parentLi = t.options.core.parentNode(li);
+        this._detachNode($(li));
 
-        $.ajax({
-            url:this.options.dataEditUrl,
-            dataType:'json',
-            data:{
-                node:li.attr('id'),
-                operation:'move',
-                parent:parentLi.attr('id')
-            },
-            beforeSend:function () {
-                alert('beforeSend');
-            },
-            success:function (data) {
-                alert('ok');
-            }
-        });
+        if ((undefined == parentLi) || 0 == parentLi.length) {
+            this._attachNode($(li), undefined, position);
+        } else {
+            this._attachNode($(li), $(parentLi), position);
+        }
+
+        this._trigger('move', true, $(li));
     },
 
     /**
-     * Default options values
+     * Return parent li of the passed li
+     *
+     * @public
+     *
+     * @param li node as jQuery object or selector
+     * @return parent li
+     */
+    parentNode:function (li) {
+        return $(li).parents('li:first');
+    },
+
+    /**
+     * Remove a node from tree (node is not actually delete, but still in memory)
+     *
+     * @param li node to delete (can be jQuery object or selector)
+     */
+    removeNode:function (li) {
+
+        this._detachNode($(li));
+
+        this._trigger('remove', true, $(li));
+
+    },
+
+    /**
+     * Default options values.
      */
     options:{
 
         /**
-         * Defines url to request when tree modify operations happens.
-         *
-         * Server should return a null value if OK or an object like following:
-         * {
-         *     error: "there was an error saving ..."
-         * }
-         * The error string will be shown to user.
+         * Defines components to load.
          */
-        dataEditUrl:'',
+        components:[],
 
         /**
-         * Defines url to request to get tree nodes for lazy loading.
-         *
-         * Server should return an object like following:
-         * {
-         *    "nodes": [
-         *       {
-         *           "span": {
-         *               "html": "Ajax node 1"
-         *           },
-         *           "li": {
-         *               "class": "collapsed"
-         *           }
-         *       },
-         *       {
-         *           "span": {
-         *               "html": "Ajax node 2"
-         *           },
-         *           "li": {
-         *               "class": "collapsed"
-         *           }
-         *       }
-         *    ]
-         * }
+         * Defines default node attributes to use in node adding if different specified in addNode() method
          */
-        dataSourceUrl:''
-//@todo: dataSource should be a function ?
-    }
+        defaultNodeAttributes:{
+            span:{
+                html:'new node'
+            },
+            li:{
+                'class':'leaf'
+            },
+            input:{
+                type:'checkbox'
+            }
+        },
 
+        /**
+         *
+         */
+        nodes:null
+
+    }
 });/*!
  * tree - jQuery Tree Plugin - checkbox component
  *
@@ -862,152 +1017,6 @@ $.widget("daredevel.treecollapse", {
     }
 
 });/*!
- * tree - jQuery Tree Plugin - context menu component
- *
- * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
- */
-$.widget("daredevel.treecontextmenu", {
-
-    /**
-     *
-     */
-    _buildMenu:function () {
-
-        var t = this;
-
-        $('.' + this.options.core.widgetBaseClass + '-contextmenu').remove();
-        var ul = $('<ul/>', {
-            'class':this.options.core.widgetBaseClass + '-contextmenu'
-        });
-
-        var li;
-        $.each(this.options.contextmenuItems, function (key, value) {
-            li = t._buildMenuItem(value);
-            ul.append(li);
-        });
-
-        ul.hide().appendTo(document.body);
-    },
-
-    _buildMenuItem:function (item) {
-        var a = $('<a/>', {
-            'html':item.html,
-            'href':item.href
-        }).bind('click', item.onClick);
-
-        var li = $('<li/>', {
-
-        });
-        return li.append(a);
-    },
-
-    /**
-     *
-     */
-    _closeMenu:function () {
-        $('.' + this.options.core.widgetBaseClass + '-contextmenu').remove();
-    },
-
-    /**
-     * Initialize plugin
-     *
-     * @private
-     */
-    _create:function () {
-
-        var t = this;
-
-        this.element.find('.' + this.options.core.widgetBaseClass + '-label').live('contextmenu', function (e) {
-            t.options.core.select($(this).parent('li'));
-            t._openMenu(e);
-            return false;
-        });
-
-        // add public methods to core component
-
-        // add private methods to core component
-        this.options.core._treecontextmenuInitializeNode = function (li) {
-            t._initializeNode(li);
-        };
-    },
-
-    /**
-     *
-     */
-    _destroy:function () {
-        //@todo complete treeselect _destory method
-    },
-
-    /**
-     * Initialize passed node
-     *
-     * @private
-     *
-     * @param li node to initialize
-     */
-    _initializeNode:function (li) {
-
-    },
-
-    /**
-     *
-     */
-    _openMenu:function (e) {
-        var t = this;
-
-        this._buildMenu();
-
-        $('.' + this.options.core.widgetBaseClass + '-contextmenu').css({left:e.pageX, top:e.pageY}).show();
-        $('body :not(.' + this.options.core.widgetBaseClass + '-contextmenu li span)').bind('click', function () {
-            t._closeMenu();
-        });
-    },
-
-    /**
-     * Default options values.
-     */
-    options:{
-
-        /**
-         *
-         */
-        'contextmenuItems':[
-            {
-                'html':'move as root',
-                'href':'javascript:void(0);',
-                'onClick':function (event, element) {
-                    $(this.options.core.element).tree('moveNode', $('.' + this.options.core.widgetBaseClass).selected(), this.options.core.element);
-                }
-            },
-            {
-                'html':'cut',
-                'href':'javascript:void(0);',
-                'onClick':function (event, element) {
-                    alert('this will cut ' + $('.' + this.options.core.widgetBaseClass).selected());
-                }
-            },
-            {
-                'html':'copy',
-                'href':'javascript:void(0);',
-                'onClick':function (event, element) {
-                    alert('a');
-                }
-            },
-            {
-                'html':'paste',
-                'href':'javascript:void(0);',
-                'onClick':function (event, element) {
-                    alert('b');
-                }
-            }
-        ]
-    }
-
-});/*!
  * tree - jQuery Tree Plugin - drag and drop component
  *
  * @author Valerio Galano <v.galano@daredevel.com>
@@ -1136,346 +1145,6 @@ $.ui.draggable.prototype._getRelativeOffset = function()
         return { top: 0, left: 0 };
     }
 };/*!
- * tree - jQuery Tree Plugin
- *
- * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
- *
- * @version 0.1
- */
-$.widget("daredevel.tree", {
-
-    /**
-     * Attach node li code under passed parent element at passed position
-     *
-     * @private
-     *
-     * @param li node to attach
-     * @param parent element to attach node to (can be another node or widget base element)
-     * @param position position of the node between brothers (expressed as positive integer)
-     */
-    _attachLi:function (li, parent, position) {
-
-        var ul = parent.find('ul:first');
-
-        if (ul.length) {
-            if ((undefined == position) || (ul.children('li').length < position)) {
-                ul.append(li);
-            } else {
-                if (position == 0) {
-                    position = position + 1;
-                }
-                ul.find('li:nth-child(' + position + '):first').before(li);
-            }
-        } else {
-            ul = $('<ul/>');
-            parent.append(ul.append(li));
-        }
-
-    },
-
-    /**
-     * Attach a node under passed parent (if no parent is passed, node is attached as root)
-     *
-     * @private
-     *
-     * @param li node to attach
-     * @param parentLi node under which new node will be attached
-     * @param position position of the node between brothers (expressed as positive integer)
-     */
-    _attachNode:function (li, parentLi, position) {
-
-        if (undefined == parentLi) {
-
-            var parent = this.options.core.element;
-
-            this._attachLi(li, parent, position);
-
-            //initialize nodes from core to call all components initialize methods
-            this.options.core._initializeNode(li);
-
-        } else {
-
-            var parent = parentLi;
-
-            this._attachLi(li, parent, position);
-
-            parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
-
-            //initialize nodes from core to call all components initialize methods
-            this.options.core._initializeNode(li);
-            this.options.core._initializeNode(parent);
-        }
-    },
-
-    /**
-     * Create a new node object
-     *
-     * Attributes must contains a list of attributes for html elements of the node.
-     *
-     * @private
-     *
-     * @param attributes object containing a list of new node's html elements attributes
-     * @return a li element object
-     */
-    _buildNode:function (attributes) {
-
-        attributes = $.extend(true, this.options.defaultNodeAttributes, attributes);
-
-        // create new node label
-        var span = $('<span/>', attributes.span);
-
-        // create node
-        var li = $('<li/>', attributes.li);
-
-        // if checkbox component is active, new node must contain checkbox input
-        if ($.inArray('checkbox', this.options.components) > -1) {
-            var input = $('<input/>',
-                attributes.input
-            );
-            li.append(input);
-        }
-
-        li.append(span);
-
-        return li;
-    },
-
-    /**
-     * Initialize plugin.
-     *
-     * @private
-     *
-     * @note Base tree structure must be something like this:
-     *
-     * <div id="tree">
-     *   <ul>
-     *     <li id="node1" class="expanded"><input type="checkbox"><label>Node 1</label><span>Node 1</span>
-     *       <ul>
-     *         <li><input type="checkbox"><label>Node 1.1</label>
-     *         <li><input type="checkbox"><label>Node 1.2</label>
-     *       </ul>
-     *     </li>
-     *   </ul>
-     * </div>
-     *
-     * 1) input type="checkbox" tag and label tag are mandatory only to use checkbox component
-     */
-    _create:function () {
-
-        var t = this;
-
-        // add core widget to options so components can add methods
-        this.options.core = this;
-
-        // add jQueryUI css widget classes
-        this.element.addClass('ui-widget ui-widget-content ' + this.widgetBaseClass);
-
-        // initialize requested components
-        this._initializeComponents();
-
-        this.element.find('li').each(function () {
-            t._initializeNode($(this));
-        });
-
-        if (this.options.nodes != null) {
-            $.each(this.options.nodes, function (key, value) {
-                t.options.core.addNode(value);
-            });
-        }
-    },
-
-    /**
-     * Destroy plugin
-     *
-     * @private
-     *
-     * @todo complete destroy method
-     */
-    _destroy:function () {
-        $.Widget.prototype.destroy.call(this);
-    },
-
-    /**
-     * Detach a node (actually don't delete it)
-     *
-     * @private
-     *
-     * @param li node to detach
-     */
-    _detachNode:function (li) {
-
-        var parentLi = this.options.core.parentNode(li);
-
-        var ul = parentLi.find('ul:first');
-
-        if (ul.children().length == 1) {
-            ul.detach();
-            parentLi.removeClass('collapsed expanded').addClass('leaf') //@todo find right way to do this
-        } else {
-            li.detach();
-        }
-
-        //initialize node from core to call all components initialize methods
-        this.options.core._initializeNode(parentLi);
-    },
-
-    /**
-     * Initialize requested components
-     *
-     * @private
-     */
-    _initializeComponents:function () {
-        for (var i in this.options.components) {
-            var initializeComponent = 'this.element.tree' + this.options.components[i] + '(this.options)';
-            eval(initializeComponent);
-        }
-    },
-
-    /**
-     * Initialize passed node
-     *
-     * @private
-     *
-     * @param li node to initialize
-     */
-    _initializeNode:function (li) {
-        li.children('span:last').addClass(this.options.core.widgetBaseClass + '-label');
-
-        // call each active component initialize method
-        for (var i in this.options.components) {
-            var componentInitializeNode = 'this._tree' + this.options.components[i] + 'InitializeNode(li)';
-            eval(componentInitializeNode);
-        }
-    },
-
-
-    /**
-     * Add a new node as children of passed one
-     *
-     * @public
-     *
-     * @param attributes new node attributes
-     * @param parentLi node under which new node will be attached
-     * @param position position of the node between brothers (expressed as positive integer)
-     */
-    addNode:function (attributes, parentLi, position) {
-
-        var t = this;
-
-        var li = this._buildNode(attributes);
-
-        if ((undefined == parentLi) || 0 == parentLi.length) {
-            this._attachNode($(li), undefined, position);
-        } else {
-            this._attachNode($(li), $(parentLi), position);
-        }
-
-        if (undefined != attributes.children) {
-            $.each(attributes.children, function (value, key) {
-                t.addNode(value, li);
-            });
-        }
-
-        t._trigger('add', true, li);
-    },
-
-    /**
-     * Check if passed node is a root
-     *
-     * @public
-     *
-     * @param li node to check
-     */
-    isRoot:function (li) {
-
-        li = $(li);
-
-        var parents = li.parentsUntil('.' + this.widgetBaseClass);
-
-        return 0 == parents.length;
-    },
-
-    /**
-     * Move a node under new parent
-     *
-     * @param li node to move
-     * @param parentLi node under which node will be moved
-     * @param position position of the node between brothers (expressed as positive integer)
-     */
-    moveNode:function (li, parentLi, position) {
-
-        this._detachNode($(li));
-
-        if ((undefined == parentLi) || 0 == parentLi.length) {
-            this._attachNode($(li), undefined, position);
-        } else {
-            this._attachNode($(li), $(parentLi), position);
-        }
-
-        this._trigger('move', true, $(li));
-    },
-
-    /**
-     * Return parent li of the passed li
-     *
-     * @public
-     *
-     * @param li node as jQuery object or selector
-     * @return parent li
-     */
-    parentNode:function (li) {
-        return $(li).parents('li:first');
-    },
-
-    /**
-     * Remove a node from tree (node is not actually delete, but still in memory)
-     *
-     * @param li node to delete (can be jQuery object or selector)
-     */
-    removeNode:function (li) {
-
-        this._detachNode($(li));
-
-        this._trigger('remove', true, $(li));
-
-    },
-
-    /**
-     * Default options values.
-     */
-    options:{
-
-        /**
-         * Defines components to load.
-         */
-        components:[],
-
-        /**
-         * Defines default node attributes to use in node adding if different specified in addNode() method
-         */
-        defaultNodeAttributes:{
-            span:{
-                html:'new node'
-            },
-            li:{
-                'class':'leaf'
-            },
-            input:{
-                type:'checkbox'
-            }
-        },
-
-        /**
-         *
-         */
-        nodes:null
-
-    }
-});/*!
  * tree - jQuery Tree Plugin - select component
  *
  * @author Valerio Galano <v.galano@daredevel.com>
