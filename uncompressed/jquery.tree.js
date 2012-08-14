@@ -1,14 +1,10 @@
 /*! Start noConflict() support*/
 (function($){
 /*!
- * tree - jQuery Tree Plugin
- *
+ * Tree - jQuery Tree Plugin
  * @author Valerio Galano <v.galano@daredevel.com>
- *
  * @license MIT
- *
- * @see http://tree.daredevel.com
- *
+ * @see https://github.com/daredevel/jquery-tree
  * @version 0.1
  */
 $.widget("daredevel.tree", {
@@ -33,7 +29,7 @@ $.widget("daredevel.tree", {
                 if (position == 0) {
                     position = position + 1;
                 }
-                ul.find('li:nth-child(' + position + '):first').before(li);
+                ul.children('li:nth-child(' + position + ')').before(li);
             }
         } else {
             ul = $('<ul/>');
@@ -261,7 +257,7 @@ $.widget("daredevel.tree", {
 
         var parents = li.parentsUntil('.' + this.widgetBaseClass);
 
-        return 0 == parents.length;
+        return 1 == parents.length;
     },
 
     /**
@@ -341,13 +337,8 @@ $.widget("daredevel.tree", {
 
     }
 });/*!
- * tree - jQuery Tree Plugin - checkbox component
- *
+ * Tree - jQuery Tree Widget - checkbox component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treecheckbox", {
 
@@ -707,13 +698,8 @@ $.widget("daredevel.treecheckbox", {
 
     }
 });/*!
- * tree - jQuery Tree Plugin - collapse component
- *
+ * Tree - jQuery Tree Widget - collapse component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treecollapse", {
 
@@ -1017,13 +1003,8 @@ $.widget("daredevel.treecollapse", {
     }
 
 });/*!
- * tree - jQuery Tree Plugin - drag and drop component
- *
+ * Tree - jQuery Tree Widget - drag and drop component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treednd", {
 
@@ -1060,11 +1041,18 @@ $.widget("daredevel.treednd", {
                 hoverClass:'over',
                 drop:function (event, ui) {
 
-                    var parentLi = $(this).closest('li').parent().closest('li');
+                    var li = $(this).closest('li');
 
-                    // prevent loops
-                    if ($(ui.draggable.parent('li')).find(parentLi).length) {
-                        return;
+                    // if node will be a root parent is undefined, else catch new parentLi
+                    if (t.options.core.isRoot(li)) {
+                        var parentLi = undefined;
+                    } else {
+                        var parentLi = li.parent().closest('li');
+
+                        // prevent loops
+                        if ($(ui.draggable.parent('li')).find(parentLi).length) {
+                            return;
+                        }
                     }
 
                     var position = $($(this).parent('li')).index() + 1;
@@ -1145,13 +1133,8 @@ $.ui.draggable.prototype._getRelativeOffset = function()
         return { top: 0, left: 0 };
     }
 };/*!
- * tree - jQuery Tree Plugin - select component
- *
+ * Tree - jQuery Tree Widget - select component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treeselect", {
 
