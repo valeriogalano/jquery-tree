@@ -42,11 +42,18 @@ $.widget("daredevel.treednd", {
                 hoverClass:'over',
                 drop:function (event, ui) {
 
-                    var parentLi = $(this).closest('li').parent().closest('li');
+                    var li = $(this).closest('li');
 
-                    // prevent loops
-                    if ($(ui.draggable.parent('li')).find(parentLi).length) {
-                        return;
+                    // if node will be a root parent is undefined, else catch new parentLi
+                    if (t.options.core.isRoot(li)) {
+                        var parentLi = undefined;
+                    } else {
+                        var parentLi = li.parent().closest('li');
+
+                        // prevent loops
+                        if ($(ui.draggable.parent('li')).find(parentLi).length) {
+                            return;
+                        }
                     }
 
                     var position = $($(this).parent('li')).index() + 1;
