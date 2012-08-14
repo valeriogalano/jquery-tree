@@ -31,7 +31,7 @@ $.widget("daredevel.tree", {
                 if (position == 0) {
                     position = position + 1;
                 }
-                ul.find('li:nth-child(' + position + '):first').before(li);
+                ul.children('li:nth-child('+position+')').before(li);
             }
         } else {
             ul = $('<ul/>');
@@ -259,7 +259,7 @@ $.widget("daredevel.tree", {
 
         var parents = li.parentsUntil('.' + this.widgetBaseClass);
 
-        return 0 == parents.length;
+        return 1 == parents.length;
     },
 
     /**
