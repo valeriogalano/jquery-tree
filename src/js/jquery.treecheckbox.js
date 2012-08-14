@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - checkbox component
- *
+ * Tree - jQuery Tree Widget - checkbox component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treecheckbox", {
 

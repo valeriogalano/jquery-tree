@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - ajax component
- *
+ * Tree - jQuery Tree Widget - ajax component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treeajax", {
 

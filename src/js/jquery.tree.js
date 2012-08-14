@@ -1,12 +1,8 @@
 /*!
- * tree - jQuery Tree Plugin
- *
+ * Tree - jQuery Tree Plugin
  * @author Valerio Galano <v.galano@daredevel.com>
- *
  * @license MIT
- *
- * @see http://tree.daredevel.com
- *
+ * @see https://github.com/daredevel/jquery-tree
  * @version 0.1
  */
 $.widget("daredevel.tree", {
@@ -31,7 +27,7 @@ $.widget("daredevel.tree", {
                 if (position == 0) {
                     position = position + 1;
                 }
-                ul.children('li:nth-child('+position+')').before(li);
+                ul.children('li:nth-child(' + position + ')').before(li);
             }
         } else {
             ul = $('<ul/>');

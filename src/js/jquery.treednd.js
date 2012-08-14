@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - drag and drop component
- *
+ * Tree - jQuery Tree Widget - drag and drop component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treednd", {
 

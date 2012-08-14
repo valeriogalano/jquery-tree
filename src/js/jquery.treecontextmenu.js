@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - context menu component
- *
+ * Tree - jQuery Tree Widget - context menu component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treecontextmenu", {
 

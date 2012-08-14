@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - collapse component
- *
+ * Tree - jQuery Tree Widget - collapse component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treecollapse", {
 

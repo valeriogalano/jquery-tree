@@ -1,11 +1,6 @@
 /*!
- * tree - jQuery Tree Plugin - select component
- *
+ * Tree - jQuery Tree Widget - select component
  * @author Valerio Galano <v.galano@daredevel.com>
- *
- * @license MIT
- *
- * @see http://tree.daredevel.com
  */
 $.widget("daredevel.treeselect", {
 
