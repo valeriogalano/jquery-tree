@@ -323,7 +323,7 @@ $.widget("daredevel.tree", {
                 html:'new node'
             },
             li:{
-                'class':'leaf'
+                'class':'leaf' //@todo handle leaf class
             },
             input:{
                 type:'checkbox'
@@ -871,7 +871,7 @@ $.widget("daredevel.treecollapse", {
             force = false;
         }
 
-        if (!force && li.hasClass('collapsed')) {
+        if (!force && (li.hasClass('collapsed') || li.hasClass('leaf'))) {
             return;
         }
 
@@ -922,7 +922,7 @@ $.widget("daredevel.treecollapse", {
             force = false;
         }
 
-        if (!force && li.hasClass('expanded')) {
+        if (!force && (li.hasClass('expanded') || li.hasClass('leaf'))) {
             return;
         }
 
@@ -1046,8 +1046,10 @@ $.widget("daredevel.treednd", {
                     // if node will be a root parent is undefined, else catch new parentLi
                     if (t.options.core.isRoot(li)) {
                         var parentLi = undefined;
+                        var droppable = t.options.core.element;
                     } else {
                         var parentLi = li.parent().closest('li');
+                        var droppable = parentLi;
 
                         // prevent loops
                         if ($(ui.draggable.parent('li')).find(parentLi).length) {

@@ -172,7 +172,7 @@ $.widget("daredevel.treecollapse", {
             force = false;
         }
 
-        if (!force && li.hasClass('collapsed')) {
+        if (!force && (li.hasClass('collapsed') || li.hasClass('leaf'))) {
             return;
         }
 
@@ -223,7 +223,7 @@ $.widget("daredevel.treecollapse", {
             force = false;
         }
 
-        if (!force && li.hasClass('expanded')) {
+        if (!force && (li.hasClass('expanded') || li.hasClass('leaf'))) {
             return;
         }
 

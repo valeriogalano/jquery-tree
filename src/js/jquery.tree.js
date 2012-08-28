@@ -321,7 +321,7 @@ $.widget("daredevel.tree", {
                 html:'new node'
             },
             li:{
-                'class':'leaf'
+                'class':'leaf' //@todo handle leaf class
             },
             input:{
                 type:'checkbox'
