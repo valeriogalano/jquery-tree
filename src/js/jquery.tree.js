@@ -189,8 +189,9 @@ $.widget("daredevel.tree", {
      */
     _initializeComponents:function () {
         for (var i in this.options.components) {
-            var initializeComponent = 'this.element.tree' + this.options.components[i] + '(this.options)';
-            eval(initializeComponent);
+            var initializeComponent = 'element.tree' + this.options.components[i] + '(options);';
+            run = new Function("options", "element", initializeComponent);
+            run(this.options, this.element);
         }
     },
 
@@ -206,8 +207,9 @@ $.widget("daredevel.tree", {
 
         // call each active component initialize method
         for (var i in this.options.components) {
-            var componentInitializeNode = 'this._tree' + this.options.components[i] + 'InitializeNode(li)';
-            eval(componentInitializeNode);
+            var componentInitializeNode = 't._tree' + this.options.components[i] + 'InitializeNode(li);';
+            run = new Function("li", "t", componentInitializeNode);
+            run(li, this);
         }
     },
 
