@@ -9,7 +9,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @private
      */
-    _create:function () {
+    _createCollapsible:function () {
 
         var t = this
 
@@ -54,7 +54,7 @@ $.widget("daredevel.treecollapse", {
      *
      * @param li node to initialize
      */
-    _initializeNode:function (li) {
+    _initializeCollapsibleNode:function (li) {
 
         var t = this;
 
@@ -263,6 +263,8 @@ $.widget("daredevel.treecollapse", {
      * Default options values
      */
     options:{
+
+        collapsible: true,
 
         /**
          * Defines duration of collapse effect in ms.

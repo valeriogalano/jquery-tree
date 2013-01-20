@@ -9,7 +9,7 @@ $.widget("daredevel.treednd", {
      *
      * @private
      */
-    _create:function () {
+    _createDnd:function () {
 
         var t = this;
 
@@ -26,7 +26,7 @@ $.widget("daredevel.treednd", {
      *
      * @param li node to initialize
      */
-    _initializeNode:function (li) {
+    _initializeDndNode:function (li) {
 
         var t = this;
 
@@ -42,8 +42,10 @@ $.widget("daredevel.treednd", {
                     // if node will be a root parent is undefined, else catch new parentLi
                     if (t.options.core.isRoot(li)) {
                         var parentLi = undefined;
+                        var droppable = t.options.core.element;
                     } else {
                         var parentLi = li.parent().closest('li');
+                        var droppable = parentLi;
 
                         // prevent loops
                         if ($(ui.draggable.parent('li')).find(parentLi).length) {

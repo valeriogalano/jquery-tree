@@ -65,7 +65,7 @@ $.widget("daredevel.treecheckbox", {
      *
      * @private
      */
-    _create:function () {
+    _createCheckbox:function () {
 
         var t = this;
 
@@ -133,7 +133,7 @@ $.widget("daredevel.treecheckbox", {
      * @private
      * @param li node to initialize
      */
-    _initializeNode:function (li) {
+    _initializeCheckboxNode:function (li) {
 
     },
 
@@ -297,6 +297,11 @@ $.widget("daredevel.treecheckbox", {
      * Default options values.
      */
     options:{
+
+        /**
+         * Defines if tree nodes will have a checkbox field
+         */
+        checkbox: true,
 
         /**
          * Defines which actions trigger when a node is checked.

@@ -30,16 +30,16 @@
     <!-- start development configuration -->
 
     <script type="text/javascript" src="src/js/jquery.tree.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treeajax.js"></script>
+<!--    <script type="text/javascript" src="src/js/jquery.treeajax.js"></script>
     <script type="text/javascript" src="src/js/jquery.treecheckbox.js"></script>
     <script type="text/javascript" src="src/js/jquery.treecollapse.js"></script>
     <script type="text/javascript" src="src/js/jquery.treecontextmenu.js"></script>
     <script type="text/javascript" src="src/js/jquery.treednd.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treeselect.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treeselect.js"></script> -->
     <link rel="stylesheet" type="text/css" href="src/css/jquery.tree.css"/>
-    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecollapse.css"/>
+<!--    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecollapse.css"/>
     <link rel="stylesheet" type="text/css" href="src/css/jquery.treecontextmenu.css"/>
-    <link rel="stylesheet" type="text/css" href="src/css/jquery.treednd.css"/>
+    <link rel="stylesheet" type="text/css" href="src/css/jquery.treednd.css"/>-->
     <!-- start development configuration -->
 
     <script type="text/javascript">
@@ -68,7 +68,6 @@
             <p>This example show all script basic features.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-0 div').tree({
-                    components: [/*'ajax'*/, 'checkbox', 'collapse', /*'contextmenu'*/, 'dnd', 'select']
                 });
             </code>
             <div>
@@ -123,7 +122,6 @@
         <div id="example-12">
             <code class="jquery" lang="text/javascript">
                 $('#example-12 div').tree({
-        //            components: ['manipulate'],
                     nodes: [
                         {
                             children: [
@@ -146,19 +144,11 @@
             <p>This example show how to retrieve nodes from an ajax call.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-2 div').tree({
-                    components: [/*'ajax'*/, 'collapse'],
                     dataSourceUrl: 'demo/lazy.json'
                 });
             </code>
             <div>
-        <!--        <ul>
-                    <li><span>Node 1</span>
-                        <ul>
-                            <li class="collapsed"><span>Node 1.1</span>
-                        </ul>
-                    </li>
-                </ul>
-            --></div>
+        </div>
         </div>
 
         <h3><a href="#">Configure node's initial state</a></h3>
@@ -168,7 +158,6 @@
         <p>To start a node checked, simply set attribute checked="true" in input element.</p>
         <code class="jquery" lang="text/javascript">
             $('#example-11 ul:first').tree({
-                components: ['checkbox', 'collapse']
             });
         </code>
         <div>
@@ -185,7 +174,7 @@
                                 <li><input type="checkbox"><span>Node 1.2.2</span>
                                 <li><input type="checkbox"><span>Node 1.2.3</span>
                                     <ul>
-                                        <li id="y"><input type="checkbox"><span>Node 1.2.3.1</span>
+                                        <li><input type="checkbox"><span>Node 1.2.3.1</span>
                                         <li><input type="checkbox"><span>Node 1.2.3.2</span>
                                     </ul>
                                 <li><input type="checkbox"><span>Node 1.2.4</span>
@@ -222,7 +211,6 @@
             <p>This example show how to automatically collapse/expand on check/unchek events</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-3 div').tree({
-                    components: ['checkbox', 'collapse'],
                     onCheck: {
                         node: 'expand'
                     },
@@ -284,7 +272,6 @@
             <p>This example show how to customize jQueryUI theme icons.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-4 div').tree({
-                    components: ['collapse'],
                     collapseUiIcon: 'ui-icon-plus',
                     expandUiIcon: 'ui-icon-minus',
                     leafUiIcon: 'ui-icon-bullet'
@@ -343,7 +330,6 @@
             <p>This example show how to use some of the public methods.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-5 div').tree({
-                    components: ['checkbox', 'collapse']
                 });
 
                 $('#example-5-checkAll').click(function(){
@@ -429,7 +415,6 @@
             <p>This example show select component usage.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-6 div').tree({
-                    components: ['select', 'collapse'],
                     select: function(event, element) {
                         alert('Selected: ' + $(element).find('span.daredevel-tree-label:first').text());
                     },
@@ -494,7 +479,6 @@
             <p>This example show how to configure tree to auto-check node when all descendants are checked.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-7 div').tree({
-                    components: ['checkbox'],
                     onCheck: {
                         ancestors: 'checkIfFull',
                         descendants: 'check'
@@ -555,7 +539,6 @@
             <p>This example show how to configure tree to admit only one branch selected at time.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-8 div').tree({
-                    components: ['checkbox'],
                     onCheck: {
                         ancestors: 'check',
                         descendants: 'uncheck',
@@ -617,7 +600,6 @@
             <p>This example show how to catch events.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-9 div').tree({
-                    components: ['collapse']
                 });
 
                 $('#example-9 div').bind('treecollapse', function() {
@@ -679,7 +661,7 @@
             <p>This example show how to manipulate tree.</p>
             <code class="jquery" lang="text/javascript">
                 var tree10 = $('#example-10 div').tree({
-                    components: ['checkbox', 'collapse', 'dnd', 'select']
+
                 });
 
                 $('#example-10-add').click(function(){
@@ -752,7 +734,6 @@
             <p>This example show ...</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-13 div').tree({
-                    components: [/*'ajax'*/, 'dnd'],
                     dataEditUrl: 'demo/lazy.json'
                 });
             </code>
@@ -770,7 +751,7 @@
                                     <li><input type="checkbox"><span>Node 1.2.2</span>
                                     <li><input type="checkbox"><span>Node 1.2.3</span>
                                         <ul>
-                                            <li id="y"><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
                                             <li><input type="checkbox"><span>Node 1.2.3.2</span>
                                         </ul>
                                     <li><input type="checkbox"><span>Node 1.2.4</span>
@@ -803,6 +784,6 @@
         </div>
 
     </div>
-    
+
 </body>
 </html>

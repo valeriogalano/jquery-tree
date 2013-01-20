@@ -1,2 +1,0 @@
-/*! Start noConflict() support*/
-(function($){
