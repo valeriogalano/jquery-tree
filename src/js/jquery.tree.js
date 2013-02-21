@@ -132,7 +132,7 @@
             this.options.core = this;
 
             // add jQueryUI css widget classes
-            this.element.addClass('ui-widget ui-widget-content ' + this.widgetBaseClass);
+            this.element.addClass('ui-widget ui-widget-content daredevel-tree');
 
             // initialize requested features
             if (this.options.checkbox) {
@@ -218,7 +218,7 @@
          * @param li node to initialize
          */
         _initializeNode:function (li) {
-            li.children('span:last').addClass(this.options.core.widgetBaseClass + '-label');
+            li.children('span:last').addClass('daredevel-tree-label');
 
             if (this.options.checkbox) {
                 this._initializeCheckboxNode(li);
@@ -275,7 +275,7 @@
 
             li = $(li);
 
-            var parents = li.parentsUntil('.' + this.widgetBaseClass);
+            var parents = li.parentsUntil('.daredevel-tree');
 
             return 1 == parents.length;
         },
@@ -345,7 +345,7 @@
          * @param li node
          */
         _checkAncestors:function (li) {
-            li.parentsUntil(this.options.core.widgetBaseClass).filter('li').find('input:checkbox:first:not(:checked)').prop('checked', true).change();
+            li.parentsUntil('daredevel-tree').filter('li').find('input:checkbox:first:not(:checked)').prop('checked', true).change();
         },
 
         /**
@@ -448,7 +448,7 @@
          * @param li node
          */
         _uncheckAncestors:function (li) {
-            li.parentsUntil(this.options.core.widgetBaseClass).filter('li').find('input:checkbox:first:checked').prop('checked', false).change();
+            li.parentsUntil('daredevel-tree').filter('li').find('input:checkbox:first:checked').prop('checked', false).change();
         },
 
         /**
@@ -591,7 +591,7 @@
             var t = this
 
             // bind collapse/expand event
-            this.element.on("click", 'li span.' + this.widgetBaseClass + '-anchor', function () {
+            this.element.on("click", 'li span.daredevel-tree-anchor', function () {
                 var li = t.options.core.parentNode($(this));
 
                 if (li.hasClass('collapsed')) {
@@ -614,10 +614,10 @@
             var t = this;
 
             // add anchor if needed
-            var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
+            var anchor = li.children('span.daredevel-tree-anchor');
             if (anchor.length < 1) {
                 li.prepend($('<span />', {
-                    'class':this.widgetBaseClass + '-anchor'
+                    'class':'daredevel-tree-anchor'
                 }));
             }
 
@@ -648,7 +648,7 @@
          */
         _markAsCollapsed:function (li) {
 
-            var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
+            var anchor = li.children('span.daredevel-tree-anchor');
 
             anchor.removeClass('ui-icon ' + this.options.expandUiIcon + ' ' + this.options.leafUiIcon);
 
@@ -668,7 +668,7 @@
          */
         _markAsExpanded:function (li) {
 
-            var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
+            var anchor = li.children('span.daredevel-tree-anchor');
 
             anchor.removeClass('ui-icon ' + this.options.collapseUiIcon + ' ' + this.options.leafUiIcon);
 
@@ -688,7 +688,7 @@
          */
         _markAsLeaf:function (li) {
 
-            var anchor = li.children('span.' + this.widgetBaseClass + '-anchor');
+            var anchor = li.children('span.daredevel-tree-anchor');
 
             anchor.removeClass('ui-icon ' + this.options.collapseUiIcon + ' ' + this.options.expandUiIcon);
 
@@ -864,9 +864,9 @@
                     }
                 });
 
-            $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').after(span);
+            $(li).find('.daredevel-tree-label:first').after(span);
 
-            $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').draggable({
+            $(li).find('.daredevel-tree-label:first').draggable({
                 start:function (event, ui) {
                     $(this).parent('li').find('ul, .prepended').css('visibility', 'hidden');
                     $(this).parent('li').find('.droppable-label').css('display', 'none');
@@ -896,14 +896,14 @@
                         t._trigger('drop', event, {draggable:ui.draggable, droppable:li});
                     },
                     over:function (event, ui) {
-                        $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').addClass('ui-state-hover');
+                        $(this).parent('li').find('.daredevel-tree-label:first').addClass('ui-state-hover');
                     },
                     out:function (event, ui) {
-                        $(this).parent('li').find('.' + t.options.core.widgetBaseClass + '-label:first').removeClass('ui-state-hover');
+                        $(this).parent('li').find('.daredevel-tree-label:first').removeClass('ui-state-hover');
                     }
                 });
 
-            $(li).find('.' + this.options.core.widgetBaseClass + '-label:first').after(span);
+            $(li).find('.daredevel-tree-label:first').after(span);
 
         },
 
@@ -916,7 +916,7 @@
 
             var t = this;
 
-            var selector = '.' + this.widgetBaseClass + '-label:not(.' + this.options.selectUiClass + ')';
+            var selector = '.daredevel-tree-label:not(.' + this.options.selectUiClass + ')';
 
             this.element.on('click', selector, function () {
                 t.select($(this).parent('li'));
@@ -933,7 +933,7 @@
          */
         _deselect:function (li) {
             //@todo check if selectable?
-            li.find('span.' + this.options.core.widgetBaseClass + '-label:first').removeClass(this.options.selectUiClass);
+            li.find('span.daredevel-tree-label:first').removeClass(this.options.selectUiClass);
             this._trigger('deselect', true, li);
         },
 
@@ -964,7 +964,7 @@
          */
         _select:function (li) {
 //@todo check if selectable?
-            li.find('span.' + this.options.core.widgetBaseClass + '-label:first').addClass(this.options.selectUiClass);
+            li.find('span.daredevel-tree-label:first').addClass(this.options.selectUiClass);
 
             this._trigger('select', true, li);
         },
@@ -978,7 +978,7 @@
 //@todo check if selectable?
             var t = this;
 
-            this.element.find('.' + this.options.core.widgetBaseClass + '-label.' + this.options.selectUiClass).each(function () {
+            this.element.find('.daredevel-tree-label.' + this.options.selectUiClass).each(function () {
                 t._deselect($(this).parent('li'));
             });
         },
@@ -1008,7 +1008,7 @@
          */
         selected:function () {
             //@todo check if selectable?
-            var selected = this.element.find('.' + this.options.core.widgetBaseClass + '-label.' + this.options.selectUiClass);
+            var selected = this.element.find('.daredevel-tree-label.' + this.options.selectUiClass);
             return $(selected).parent();
         },
 
