@@ -391,39 +391,39 @@
             var t = this;
 
             // bind node uncheck event
-            this.element.find('input:checkbox:not(:checked)').live('click', function () {
+            this.element.on('click', 'input:checkbox:not(:checked)', function () {
                 t.uncheck(t.options.core.parentNode($(this)));
             });
 
             // bind node check event
-            this.element.find('input:checkbox:checked').live('click', function () {
+            this.element.on('click', 'input:checkbox:checked', function () {
                 t.check(t.options.core.parentNode($(this)));
             });
 
             // bind collapse on uncheck event
             if (this.options.onUncheck.node == 'collapse') {
-                this.element.find('input:checkbox:not(:checked)').live("click", function () {
+                this.element.on("click", 'input:checkbox:not(:checked)', function () {
                     t.options.core.collapse(t.options.core.parentNode($(this)));
                 });
             } else
 
             // bind expand on uncheck event
             if (this.options.onUncheck.node == 'expand') {
-                this.element.find('input:checkbox:not(:checked)').live("click", function () {
+                this.element.on("click", 'input:checkbox:not(:checked)', function () {
                     t.options.core.expand(t.options.core.parentNode($(this)));
                 });
             }
 
             // bind collapse on check event
             if (this.options.onCheck.node == 'collapse') {
-                this.element.find('input:checkbox:checked').live("click", function () {
+                this.element.on("click", 'input:checkbox:checked', function () {
                     t.options.core.collapse(t.options.core.parentNode($(this)));
                 });
             } else
 
             // bind expand on check event
             if (this.options.onCheck.node == 'expand') {
-                this.element.find('input:checkbox:checked').live("click", function () {
+                this.element.on("click", 'input:checkbox:checked', function () {
                     t.options.core.expand(t.options.core.parentNode($(this)));
                 });
             }
@@ -591,7 +591,7 @@
             var t = this
 
             // bind collapse/expand event
-            this.element.find('li span.' + this.widgetBaseClass + '-anchor').live("click", function () {
+            this.element.on("click", 'li span.' + this.widgetBaseClass + '-anchor', function () {
                 var li = t.options.core.parentNode($(this));
 
                 if (li.hasClass('collapsed')) {
@@ -918,7 +918,7 @@
 
             var selector = '.' + this.widgetBaseClass + '-label:not(.' + this.options.selectUiClass + ')';
 
-            this.element.find(selector).live('click', function () {
+            this.element.on('click', selector, function () {
                 t.select($(this).parent('li'));
             });
 
