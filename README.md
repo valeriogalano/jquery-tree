@@ -31,7 +31,7 @@ First of all, let's setup plugin initialization into html head section:
 
     <!-- initialize checkboxTree plugin -->
     <script type="text/javascript">
-	//<!--
+        //<!--
         $(document).ready(function() {
             $('#tree').tree({
                 /* specify here your options */
@@ -42,7 +42,6 @@ First of all, let's setup plugin initialization into html head section:
     
 Now, we can build our tree into html body section:
     
-    <!--
     <div id="tree">
         <ul>
             <li><input type="checkbox"><span>Node 1</span>
