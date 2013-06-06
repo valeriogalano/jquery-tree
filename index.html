@@ -1,79 +1,789 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
+    <title>jQuery Tree Widget demo</title>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Jquery-tree : jQuery Tree Widget" />
+    <!-- styles for demo purpose -->
+    <style type="text/css">
+        body {
+            font-family: verdana, arial;
+            font-size: 0.8em;
+        }
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+        code {
+            white-space: pre;
+        }
+    </style>
 
-    <title>Jquery-tree</title>
-  </head>
+    <!-- start tree configuration -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript"
+            src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
+<!--
+    <script type="text/javascript" src="minified/jquery.tree.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="minified/jquery.tree.min.css"/>
+    <!-- end tree configuration -->
 
-  <body>
+    <!-- start development configuration -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/daredevel/jquery-tree">View on GitHub</a>
+    <script type="text/javascript" src="src/js/jquery.tree.js"></script>
+<!--    <script type="text/javascript" src="src/js/jquery.treeajax.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treecheckbox.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treecollapse.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treecontextmenu.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treednd.js"></script>
+    <script type="text/javascript" src="src/js/jquery.treeselect.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="src/css/jquery.tree.css"/>
+<!--    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecollapse.css"/>
+    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecontextmenu.css"/>
+    <link rel="stylesheet" type="text/css" href="src/css/jquery.treednd.css"/>-->
+    <!-- start development configuration -->
 
-          <h1 id="project_title">Jquery-tree</h1>
-          <h2 id="project_tagline">jQuery Tree Widget</h2>
+    <script type="text/javascript">
+        //<!--
+        $(document).ready(function() {
+            $( "#accordion" ).accordion({
+                'collapsible': true,
+                'active': -1
+            });
+            $('.jquery').each(function() {
+                eval($(this).html());
+            });
+            $('.button').button();
+        });
+        //-->
+    </script>
+</head>
+<body>
+    <h1>jQuery Tree Widget demo</h1>
+    <a href="https://github.com/daredevel/jquery-tree/" class="button">Project Home</a>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/daredevel/jquery-tree/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/daredevel/jquery-tree/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+    <div id="accordion">
+
+        <h3><a href="#">All components in default behaviour</a></h3>
+        <div id="example-0">
+            <p>This example show all script basic features.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-0 div').tree({
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                        </ul>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">Initialize tree via Javascript object</a></h3>
+        <div id="example-12">
+            <code class="jquery" lang="text/javascript">
+                $('#example-12 div').tree({
+                    nodes: [
+                        {
+                            children: [
+                                {},
+                                {}
+                            ]
+                        },
+                        {
+
+                        }
+                    ]
+                });
+            </code>
+            <div>
+            </div>
+        </div>
+
+        <h3><a href="#">Initialize tree via ajax (lazy loading)</a></h3>
+        <div id="example-2">
+            <p>This example show how to retrieve nodes from an ajax call.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-2 div').tree({
+                    dataSourceUrl: 'demo/lazy.json'
+                });
+            </code>
+            <div>
+        </div>
+        </div>
+
+        <h3><a href="#">Configure node's initial state</a></h3>
+        <div id="example-11">
+        <p>This example show how to define node initial state.</p>
+        <p>To start a node collapsed, set class="collapsed" in li element.</p>
+        <p>To start a node checked, simply set attribute checked="true" in input element.</p>
+        <code class="jquery" lang="text/javascript">
+            $('#example-11 ul:first').tree({
+            });
+        </code>
+        <div>
+            <ul>
+                <li><input type="checkbox"><span>Node 1</span>
+                    <ul>
+                        <li class="collapsed"><input type="checkbox"><span>Node 1.1 (start collapsed)</span>
+                            <ul>
+                                <li><input type="checkbox"><span>Node 1.1.1</span>
+                            </ul>
+                        <li><input type="checkbox" checked="true"><span>Node 1.2</span>
+                            <ul>
+                                <li><input type="checkbox"><span>Node 1.2.1</span>
+                                <li><input type="checkbox"><span>Node 1.2.2</span>
+                                <li><input type="checkbox"><span>Node 1.2.3</span>
+                                    <ul>
+                                        <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                        <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                    </ul>
+                                <li><input type="checkbox"><span>Node 1.2.4</span>
+                                <li><input type="checkbox"><span>Node 1.2.5</span>
+                                <li><input type="checkbox"><span>Node 1.2.6</span>
+                            </ul>
+                    </ul>
+                <li id="z"><input type="checkbox"><span>Node 2</span>
+                    <ul>
+                        <li><input type="checkbox"><span>Node 2.1</span>
+                            <ul>
+                                <li><input type="checkbox"><span>Node 2.1.1</span>
+                            </ul>
+                        <li><input type="checkbox"><span>Node 2.2</span>
+                            <ul>
+                                <li><input type="checkbox"><span>Node 2.2.1</span>
+                                <li><input type="checkbox"><span>Node 2.2.2</span>
+                                <li><input type="checkbox"><span>Node 2.2.3</span>
+                                    <ul>
+                                        <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                        <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                    </ul>
+                                <li><input type="checkbox"><span>Node 2.2.4</span>
+                                <li><input type="checkbox"><span>Node 2.2.5</span>
+                                <li><input type="checkbox"><span>Node 2.2.6</span>
+                            </ul>
+                    </ul>
+            </ul>
+        </div>
+        </div>
+
+        <h3><a href="#">Expand on check</a></h3>
+        <div id="example-3">
+            <p>This example show how to automatically collapse/expand on check/unchek events</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-3 div').tree({
+                    onCheck: {
+                        node: 'expand'
+                    },
+                    onUncheck: {
+                        node: 'collapse'
+                    }
+                });
+            </code>
+            <div>
+                <ul>
+                    <li class="collapsed"><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li class="collapsed"><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                        </ul>
+                        <ul>
+                            <li class="collapsed"><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li class="collapsed"><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li class="collapsed"><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li class="collapsed"><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li class="collapsed"><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li class="collapsed"><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li class="collapsed"><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li class="collapsed"><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li class="collapsed"><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">jQueryUI theme customize</a></h3>
+        <div id="example-4">
+            <p>This example show how to customize jQueryUI theme icons.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-4 div').tree({
+                    collapseUiIcon: 'ui-icon-plus',
+                    expandUiIcon: 'ui-icon-minus',
+                    leafUiIcon: 'ui-icon-bullet'
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                        </ul>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">methods usage</a></h3>
+        <div id="example-5">
+            <p>This example show how to use some of the public methods.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-5 div').tree({
+                });
+
+                $('#example-5-checkAll').click(function(){
+                    $('#example-5 div').tree('checkAll');
+                });
+
+                $('#example-5-uncheckAll').click(function(){
+                    $('#example-5 div').tree('uncheckAll');
+                });
+
+                $('#example-5-collapse').click(function(){
+                    $('#example-5 div').tree('collapse', $('#example-5-node22'));
+                });
+
+                $('#example-5-expand').click(function(){
+                    $('#example-5 div').tree('expand', $('#example-5-node22'));
+                });
+
+                $('#example-5-check').click(function(){
+                    $('#example-5 div').tree('check', $('#example-5-node22'));
+                });
+
+                $('#example-5-uncheck').click(function(){
+                    $('#example-5 div').tree('uncheck', $('#example-5-node22'));
+                });
+            </code>
+            <button id="example-5-checkAll">Check all nodes</button>
+            <button id="example-5-uncheckAll">Uncheck all nodes</button>
+            <button id="example-5-collapse">Collapse node 2.2</button>
+            <button id="example-5-expand">Expand node 2.2</button>
+            <button id="example-5-check">Check node 2.2</button>
+            <button id="example-5-uncheck">Uncheck node 2.2</button>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                        </ul>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li id="example-5-node22"><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">select</a></h3>
+        <div id="example-6">
+            <p>This example show select component usage.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-6 div').tree({
+                    select: function(event, element) {
+                        alert('Selected: ' + $(element).find('span.daredevel-tree-label:first').text());
+                    },
+                    deselect: function(event, element) {
+                        alert('Deselected: ' + $(element).find('span.daredevel-tree-label:first').text());
+                    }
+                });
+                $('#example-6-button').bind('click', function(){
+                    var selected = $('#example-6 div').tree('selected');
+                    alert('Selected:' + selected.find('span.daredevel-tree-label:first').text());
+                });
+            </code>
+            <button id="example-6-button">Get selected node</button>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">check if full</a></h3>
+        <div id="example-7">
+            <p>This example show how to configure tree to auto-check node when all descendants are checked.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-7 div').tree({
+                    onCheck: {
+                        ancestors: 'checkIfFull',
+                        descendants: 'check'
+                    },
+                    onUncheck: {
+                        ancestors: 'uncheck'
+                    }
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">check single branch</a></h3>
+        <div id="example-8">
+            <p>This example show how to configure tree to admit only one branch selected at time.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-8 div').tree({
+                    onCheck: {
+                        ancestors: 'check',
+                        descendants: 'uncheck',
+                        others: 'uncheck'
+                    },
+                    onUncheck: {
+                        descendants: 'uncheck'
+                    }
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">events handling</a></h3>
+        <div id="example-9">
+            <p>This example show how to catch events.</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-9 div').tree({
+                });
+
+                $('#example-9 div').bind('treecollapse', function() {
+                    alert('collapse event triggered');
+                });
+
+                $('#example-9 div').bind('treeexpand', function() {
+                    alert('expand event triggered');
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">tree manipulation</a></h3>
+        <div id="example-10">
+            <p>This example show how to manipulate tree.</p>
+            <code class="jquery" lang="text/javascript">
+                var tree10 = $('#example-10 div').tree({
+
+                });
+
+                $('#example-10-add').click(function(){
+                    tree10.tree('addNode', {}, $('#y'));
+                });
+                $('#example-10-add-as-root').click(function(){
+                    tree10.tree('addNode', {li: {'class': 'leaf'}});
+                });
+                $('#example-10-remove').click(function(){
+                    var node = $('#y ul').children('li:first');
+                    tree10.tree('removeNode', node);
+                });
+                $('#example-10-move').click(function(){
+                    var node = $('#y ul').children('li:first');
+                    tree10.tree('moveNode', node, $('#z'));
+                });
+            </code>
+            <input type="button" id="example-10-add" value="Add" />
+            <input type="button" id="example-10-add-as-root" value="Add root" />
+            <input type="button" id="example-10-remove" value="Remove" />
+            <input type="button" id="example-10-move" value="Move" />
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li id="y"><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li id="z"><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
+        <h3><a href="#">ajax edit</a></h3>
+        <div id="example-13">
+            <p>This example show ...</p>
+            <code class="jquery" lang="text/javascript">
+                $('#example-13 div').tree({
+                    dataEditUrl: 'demo/lazy.json'
+                });
+            </code>
+            <div>
+                <ul>
+                    <li><input type="checkbox"><span>Node 1</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 1.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 1.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 1.2.1</span>
+                                    <li><input type="checkbox"><span>Node 1.2.2</span>
+                                    <li><input type="checkbox"><span>Node 1.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 1.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 1.2.4</span>
+                                    <li><input type="checkbox"><span>Node 1.2.5</span>
+                                    <li><input type="checkbox"><span>Node 1.2.6</span>
+                                </ul>
+                        </ul>
+                    <li id="z"><input type="checkbox"><span>Node 2</span>
+                        <ul>
+                            <li><input type="checkbox"><span>Node 2.1</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.1.1</span>
+                                </ul>
+                            <li><input type="checkbox"><span>Node 2.2</span>
+                                <ul>
+                                    <li><input type="checkbox"><span>Node 2.2.1</span>
+                                    <li><input type="checkbox"><span>Node 2.2.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3</span>
+                                        <ul>
+                                            <li><input type="checkbox"><span>Node 2.2.3.1</span>
+                                            <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                        </ul>
+                                    <li><input type="checkbox"><span>Node 2.2.4</span>
+                                    <li><input type="checkbox"><span>Node 2.2.5</span>
+                                    <li><input type="checkbox"><span>Node 2.2.6</span>
+                                </ul>
+                        </ul>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Jquery-tree maintained by <a href="https://github.com/daredevel">daredevel</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+</body>
 </html>
