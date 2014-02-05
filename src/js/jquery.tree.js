@@ -5,7 +5,7 @@
  * @see https://github.com/daredevel/jquery-tree
  * @version 0.1
  */
-(function( $, undefined ) {
+(function ($, undefined) {
     $.widget("daredevel.tree", {
 
         /**
@@ -17,7 +17,7 @@
          * @param parent element to attach node to (can be another node or widget base element)
          * @param position position of the node between brothers (expressed as positive integer)
          */
-        _attachLi:function (li, parent, position) {
+        _attachLi: function (li, parent, position) {
 
             var ul = parent.find('ul:first');
 
@@ -46,7 +46,7 @@
          * @param parentLi node under which new node will be attached
          * @param position position of the node between brothers (expressed as positive integer)
          */
-        _attachNode:function (li, parentLi, position) {
+        _attachNode: function (li, parentLi, position) {
 
             if (undefined == parentLi) {
 
@@ -81,7 +81,7 @@
          * @param attributes object containing a list of new node's html elements attributes
          * @return a li element object
          */
-        _buildNode:function (attributes) {
+        _buildNode: function (attributes) {
 
             attributes = $.extend(true, this.options.defaultNodeAttributes, attributes);
 
@@ -124,7 +124,7 @@
          *
          * 1) input type="checkbox" tag and label tag are mandatory only to use checkbox component
          */
-        _create:function () {
+        _create: function () {
 
             var t = this;
 
@@ -169,7 +169,7 @@
          *
          * @todo complete destroy method
          */
-        _destroy:function () {
+        _destroy: function () {
             $.Widget.prototype.destroy.call(this);
         },
 
@@ -180,7 +180,7 @@
          *
          * @param li node to detach
          */
-        _detachNode:function (li) {
+        _detachNode: function (li) {
 
             var parentLi = this.options.core.parentNode(li);
 
@@ -202,7 +202,7 @@
          *
          * @private
          */
-        _initializeComponents:function () {
+        _initializeComponents: function () {
             for (var i in this.options.components) {
                 var initializeComponent = 'element.tree' + this.options.components[i] + '(options);';
                 run = new Function("options", "element", initializeComponent);
@@ -217,7 +217,7 @@
          *
          * @param li node to initialize
          */
-        _initializeNode:function (li) {
+        _initializeNode: function (li) {
             li.children('span:last').addClass('daredevel-tree-label');
 
             if (this.options.checkbox) {
@@ -243,7 +243,7 @@
          * @param parentLi node under which new node will be attached
          * @param position position of the node between brothers (expressed as positive integer)
          */
-        addNode:function (attributes, parentLi, position) {
+        addNode: function (attributes, parentLi, position) {
 
             var t = this;
 
@@ -271,7 +271,7 @@
          *
          * @param li node to check
          */
-        isRoot:function (li) {
+        isRoot: function (li) {
 
             li = $(li);
 
@@ -287,7 +287,7 @@
          * @param parentLi node under which node will be moved
          * @param position position of the node between brothers (expressed as positive integer)
          */
-        moveNode:function (li, parentLi, position) {
+        moveNode: function (li, parentLi, position) {
 
             this._detachNode($(li));
 
@@ -308,7 +308,7 @@
          * @param li node as jQuery object or selector
          * @return parent li
          */
-        parentNode:function (li) {
+        parentNode: function (li) {
             return $(li).parents('li:first');
         },
 
@@ -317,7 +317,7 @@
          *
          * @param li node to delete (can be jQuery object or selector)
          */
-        removeNode:function (li) {
+        removeNode: function (li) {
 
             this._detachNode($(li));
 
@@ -332,7 +332,7 @@
          * @param li node
          * @return true if all descendant checked
          */
-        _allDescendantChecked:function (li) {
+        _allDescendantChecked: function (li) {
             return (li.find('li input:checkbox:not(:checked)').length == 0);
         },
 
@@ -344,7 +344,7 @@
          * @private
          * @param li node
          */
-        _checkAncestors:function (li) {
+        _checkAncestors: function (li) {
             li.parentsUntil('daredevel-tree').filter('li').find('input:checkbox:first:not(:checked)').prop('checked', true).change();
         },
 
@@ -356,7 +356,7 @@
          * @private
          * @param li node
          */
-        _checkDescendants:function (li) {
+        _checkDescendants: function (li) {
             li.find('li input:checkbox:not(:checked)').prop('checked', true).change();
         },
 
@@ -368,7 +368,7 @@
          * @private
          * @param li node
          */
-        _checkOthers:function (li) {
+        _checkOthers: function (li) {
             var t = this;
             li.addClass('exclude');
             li.parents('li').addClass('exclude');
@@ -386,7 +386,7 @@
          *
          * @private
          */
-        _createCheckbox:function () {
+        _createCheckbox: function () {
 
             var t = this;
 
@@ -435,7 +435,7 @@
          * @private
          * @param li node to initialize
          */
-        _initializeCheckboxNode:function (li) {
+        _initializeCheckboxNode: function (li) {
 
         },
 
@@ -447,7 +447,7 @@
          * @private
          * @param li node
          */
-        _uncheckAncestors:function (li) {
+        _uncheckAncestors: function (li) {
             li.parentsUntil('daredevel-tree').filter('li').find('input:checkbox:first:checked').prop('checked', false).change();
         },
 
@@ -459,7 +459,7 @@
          * @private
          * @param li node
          */
-        _uncheckDescendants:function (li) {
+        _uncheckDescendants: function (li) {
             li.find('li input:checkbox:checked').prop('checked', false).change();
         },
 
@@ -471,7 +471,7 @@
          * @private
          * @param li node
          */
-        _uncheckOthers:function (li) {
+        _uncheckOthers: function (li) {
             var t = this;
             li.addClass('exclude');
             li.parents('li').addClass('exclude');
@@ -490,7 +490,7 @@
          * @public
          * @param li node to check
          */
-        check:function (li) {
+        check: function (li) {
 
             li = $(li);
 
@@ -531,7 +531,7 @@
          *
          * @public
          */
-        checkAll:function () {
+        checkAll: function () {
             $(this.element).find('input:checkbox:not(:checked)').prop('checked', true).change();
         },
 
@@ -541,7 +541,7 @@
          * @public
          * @param li node to uncheck
          */
-        uncheck:function (li) {
+        uncheck: function (li) {
 
             li = $(li);
 
@@ -577,7 +577,7 @@
          *
          * @public
          */
-        uncheckAll:function () {
+        uncheckAll: function () {
             $(this.element).find('input:checkbox:checked').prop('checked', false).change();
         },
 
@@ -586,7 +586,7 @@
          *
          * @private
          */
-        _createCollapsible:function () {
+        _createCollapsible: function () {
 
             var t = this
 
@@ -609,7 +609,7 @@
          *
          * @param li node to initialize
          */
-        _initializeCollapsibleNode:function (li) {
+        _initializeCollapsibleNode: function (li) {
 
             var t = this;
 
@@ -617,7 +617,7 @@
             var anchor = li.children('span.daredevel-tree-anchor');
             if (anchor.length < 1) {
                 li.prepend($('<span />', {
-                    'class':'daredevel-tree-anchor'
+                    'class': 'daredevel-tree-anchor'
                 }));
             }
 
@@ -646,7 +646,7 @@
          *
          * @param li node to mark
          */
-        _markAsCollapsed:function (li) {
+        _markAsCollapsed: function (li) {
 
             var anchor = li.children('span.daredevel-tree-anchor');
 
@@ -666,7 +666,7 @@
          *
          * @param li node to mark
          */
-        _markAsExpanded:function (li) {
+        _markAsExpanded: function (li) {
 
             var anchor = li.children('span.daredevel-tree-anchor');
 
@@ -686,7 +686,7 @@
          *
          * @param li  node to mark
          */
-        _markAsLeaf:function (li) {
+        _markAsLeaf: function (li) {
 
             var anchor = li.children('span.daredevel-tree-anchor');
 
@@ -704,7 +704,7 @@
          *
          * @param li  node to unmark
          */
-        _unmark:function () {
+        _unmark: function () {
             li.removeClass("collapsed expanded leaf");
         },
 
@@ -717,7 +717,7 @@
          * @param effect true if use effects
          * @param force true to collpase a node already marked as collapsed
          */
-        collapse:function (li, effect, force) {
+        collapse: function (li, effect, force) {
 
             li = $(li);
 
@@ -753,7 +753,7 @@
          *
          * @private
          */
-        collapseAll:function () {
+        collapseAll: function () {
             var t = this;
             $(this.element).find('li.expanded').each(function () {
                 t.collapse($(this));
@@ -768,7 +768,7 @@
          * @param li node to expand
          * @param effect true if use effects
          */
-        expand:function (li, effect, force) {
+        expand: function (li, effect, force) {
 
             li = $(li);
 
@@ -805,7 +805,7 @@
          *
          * @public
          */
-        expandAll:function () {
+        expandAll: function () {
             var t = this;
             $(this.element).find('li.collapsed').each(function () {
                 t.expand($(this));
@@ -817,7 +817,7 @@
          *
          * @private
          */
-        _createDnd:function () {
+        _createDnd: function () {
 
             var t = this;
 
@@ -830,16 +830,16 @@
          *
          * @param li node to initialize
          */
-        _initializeDndNode:function (li) {
+        _initializeDndNode: function (li) {
 
             var t = this;
 
             var span = $('<span/>', {
-                'class':'prepended',
-                html:'<br/>'
+                'class': 'prepended',
+                html: '<br/>'
             }).droppable({
-                    hoverClass:'over',
-                    drop:function (event, ui) {
+                    hoverClass: 'over',
+                    drop: function (event, ui) {
 
                         var li = $(this).closest('li');
 
@@ -860,31 +860,31 @@
                         var position = $($(this).parent('li')).index() + 1;
 
                         t.options.core.moveNode(ui.draggable.parent('li'), parentLi, position);
-                        t._trigger('drop', event, {draggable:ui.draggable, droppable:parentLi});
+                        t._trigger('drop', event, {draggable: ui.draggable, droppable: parentLi});
                     }
                 });
 
             $(li).find('.daredevel-tree-label:first').after(span);
 
             $(li).find('.daredevel-tree-label:first').draggable({
-                start:function (event, ui) {
+                start: function (event, ui) {
                     $(this).parent('li').find('ul, .prepended').css('visibility', 'hidden');
                     $(this).parent('li').find('.droppable-label').css('display', 'none');
                 },
-                stop:function (event, ui) {
+                stop: function (event, ui) {
                     $(this).parent('li').find('ul').css('visibility', 'visible');
                     $(this).parent('li').find('.prepended').css('visibility', '');
                     $(this).parent('li').find('.droppable-label').css('display', 'inherit');
                 },
-                revert:true,
-                revertDuration:0
+                revert: true,
+                revertDuration: 0
             });
 
             var span = $('<span/>', {
-                'class':'droppable-label',
-                html:'<br/>'
+                'class': 'droppable-label',
+                html: '<br/>'
             }).droppable({
-                    drop:function (event, ui) {
+                    drop: function (event, ui) {
                         var li = $(this).closest('li');
 
                         // prevent loops
@@ -893,12 +893,12 @@
                         }
 
                         t.options.core.moveNode(ui.draggable.parent('li'), li, 1);
-                        t._trigger('drop', event, {draggable:ui.draggable, droppable:li});
+                        t._trigger('drop', event, {draggable: ui.draggable, droppable: li});
                     },
-                    over:function (event, ui) {
+                    over: function (event, ui) {
                         $(this).parent('li').find('.daredevel-tree-label:first').addClass('ui-state-hover');
                     },
-                    out:function (event, ui) {
+                    out: function (event, ui) {
                         $(this).parent('li').find('.daredevel-tree-label:first').removeClass('ui-state-hover');
                     }
                 });
@@ -912,16 +912,17 @@
          * //@todo find right name or merge with _create
          * @private
          */
-        _createSelectable:function () {
-
+        _createSelectable: function () {
             var t = this;
 
-            var selector = '.daredevel-tree-label:not(.' + this.options.selectUiClass + ')';
-
-            this.element.on('click', selector, function () {
-                t.select($(this).parent('li'));
+            this.element.on("click", '.daredevel-tree-label', function () {
+                var li = $(this);
+                if (li.hasClass(t.options.selectUiClass)) {
+                    t.deselect($(this).parent(li));
+                } else {
+                    t.select($(this).parent('li'));
+                }
             });
-
         },
 
         /**
@@ -931,16 +932,27 @@
          *
          * @param li node
          */
-        _deselect:function (li) {
-            //@todo check if selectable?
+        _deselect: function (li) {
             li.find('span.daredevel-tree-label:first').removeClass(this.options.selectUiClass);
             this._trigger('deselect', true, li);
         },
 
         /**
+         * Deselect all selected nodes
+         *
+         * @private
+         */
+        _deselectAll: function () {
+            var t = this;
+            this.element.find('.daredevel-tree-label.' + this.options.selectUiClass).each(function () {
+                t._deselect($(this).parent('li'));
+            });
+        },
+
+        /**
          *
          */
-        _destroySelectable:function () {
+        _destroySelectable: function () {
             //@todo complete treeselect _destory method
         },
 
@@ -951,8 +963,8 @@
          *
          * @param li node to initialize
          */
-        _initializeSelectableNode:function (li) {
-//@todo check if selectable?
+        _initializeSelectableNode: function (li) {
+
         },
 
         /**
@@ -962,10 +974,8 @@
          *
          * @param li node
          */
-        _select:function (li) {
-//@todo check if selectable?
+        _select: function (li) {
             li.find('span.daredevel-tree-label:first').addClass(this.options.selectUiClass);
-
             this._trigger('select', true, li);
         },
 
@@ -974,13 +984,9 @@
          *
          * @public
          */
-        deselect:function () {
-//@todo check if selectable?
-            var t = this;
-
-            this.element.find('.daredevel-tree-label.' + this.options.selectUiClass).each(function () {
-                t._deselect($(this).parent('li'));
-            });
+        deselect: function (li) {
+            li = $(li);
+            this._deselect(li);
         },
 
         /**
@@ -990,11 +996,12 @@
          *
          * @param li node
          */
-        select:function (li) {
-//@todo check if selectable?
+        select: function (li) {
             li = $(li);
 
-            this.deselect();
+            if (this.options.selectUnique) {
+                this._deselectAll();
+            }
 
             this._select(li);
         },
@@ -1006,8 +1013,7 @@
          *
          * @return li
          */
-        selected:function () {
-            //@todo check if selectable?
+        selected: function () {
             var selected = this.element.find('.daredevel-tree-label.' + this.options.selectUiClass);
             return $(selected).parent();
         },
@@ -1016,31 +1022,31 @@
         /**
          * Default options values.
          */
-        options:{
+        options: {
 
             /**
              * Defines default node attributes to use in node adding if different specified in addNode() method
              */
-            defaultNodeAttributes:{
-                span:{
-                    html:'new node'
+            defaultNodeAttributes: {
+                span: {
+                    html: 'new node'
                 },
-                li:{
-                    'class':'leaf' //@todo handle leaf class
+                li: {
+                    'class': 'leaf' //@todo handle leaf class
                 },
-                input:{
-                    type:'checkbox'
+                input: {
+                    type: 'checkbox'
                 }
             },
 
             /**
              *
              */
-            nodes:null,
+            nodes: null,
             /**
              * Defines if tree nodes will have a checkbox field
              */
-            checkbox:true,
+            checkbox: true,
 
             /**
              * Defines which actions trigger when a node is checked.
@@ -1049,27 +1055,27 @@
              * 2) descendants
              * 3) ancestors
              */
-            onCheck:{
+            onCheck: {
 
                 /**
                  * Available values: null, 'check', 'uncheck', 'checkIfFull'.
                  */
-                ancestors:'check',
+                ancestors: 'check',
 
                 /**
                  * Available values: null, 'check', 'uncheck'.
                  */
-                descendants:'check',
+                descendants: 'check',
 
                 /**
                  * Available values: null, 'collapse', 'expand'.
                  */
-                node:'', //@todo missing order
+                node: '', //@todo missing order
 
                 /**
                  * Available values: null, 'check', 'uncheck'.
                  */
-                others:''
+                others: ''
             },
 
             /**
@@ -1079,81 +1085,81 @@
              * 2) descendants
              * 3) ancestors
              */
-            onUncheck:{
+            onUncheck: {
 
                 /**
                  * Available values: null, 'check', 'uncheck'.
                  */
-                ancestors:'',
+                ancestors: '',
 
                 /**
                  * Available values: null, 'check', 'uncheck'.
                  */
-                descendants:'uncheck',
+                descendants: 'uncheck',
 
                 /**
                  * Available values: null, 'collapse', 'expand'.
                  */
-                node:'', //@todo missing order
+                node: '', //@todo missing order
 
                 /**
                  * Available values: null, 'check', 'uncheck'.
                  */
-                others:''
+                others: ''
             },
 
             /**
              * Define if tree nodes can be collapsed
              */
-            collapsible:true,
+            collapsible: true,
 
             /**
              * Defines duration of collapse effect in ms.
              * Works only if collapseEffect is not null.
              */
-            collapseDuration:500,
+            collapseDuration: 500,
 
             /**
              * Defines the effect used for collapse node.
              */
-            collapseEffect:'blind',
+            collapseEffect: 'blind',
 
             /**
              * Defines jQueryUI icon class used for collapse anchor.
              */
-            collapseUiIcon:'ui-icon-triangle-1-e',
+            collapseUiIcon: 'ui-icon-triangle-1-e',
 
             /**
              * Defines duration of expand effect in ms.
              * Works only if expandEffect is not null.
              */
-            expandDuration:500,
+            expandDuration: 500,
 
             /**
              * Defines the effect used for expand node.
              */
-            expandEffect:'blind',
+            expandEffect: 'blind',
 
             /**
              * Defines jQueryUI icon class used for expand anchor.
              */
-            expandUiIcon:'ui-icon-triangle-1-se',
+            expandUiIcon: 'ui-icon-triangle-1-se',
 
             /**
              * Defines jQueryUI icon class used for leaf anchor.
              */
-            leafUiIcon:'',
+            leafUiIcon: '',
 
             dnd: true,
 
-            drop:function (event, element) {
+            drop: function (event, element) {
 
             },
 
             /**
              * Defines if tree nodes are selectable
              */
-            selectable:true,
+            selectable: true,
 
             /**
              * Defines function to handle deselect event
@@ -1161,13 +1167,18 @@
              * @param event
              * @param element
              */
-            deselect:function (event, element) {
+            deselect: function (event, element) {
             },
 
             /**
              * Defines jQueryUI class used for selected labels.
              */
-            selectUiClass:'ui-state-active',
+            selectUiClass: 'ui-state-active',
+
+            /**
+             * Define if can be selected only one node at a time
+             */
+            selectUnique: true,
 
             /**
              * Defines function to handle select event
@@ -1175,7 +1186,7 @@
              * @param event
              * @param element
              */
-            select:function (event, element) {
+            select: function (event, element) {
             }
 
         }
@@ -1190,12 +1201,12 @@
         if (this.cssPosition == "relative") {
             var p = this.element.position();
             return {
-                top:p.top - (parseInt(this.helper.css("top"), 10) || 0)/* + this.scrollParent.scrollTop()*/,
-                left:p.left - (parseInt(this.helper.css("left"), 10) || 0)/* + this.scrollParent.scrollLeft()*/
+                top: p.top - (parseInt(this.helper.css("top"), 10) || 0)/* + this.scrollParent.scrollTop()*/,
+                left: p.left - (parseInt(this.helper.css("left"), 10) || 0)/* + this.scrollParent.scrollLeft()*/
             };
         } else {
-            return { top:0, left:0 };
+            return { top: 0, left: 0 };
         }
     };
 
-})( jQuery );
+})(jQuery);
