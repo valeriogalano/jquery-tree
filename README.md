@@ -43,52 +43,70 @@ First of all, let's setup plugin initialization into html head section:
     </script>
     
 Now, we can build our tree into html body section:
-    
+    ```html
     <div id="tree">
         <ul>
-            <li><input type="checkbox"><span>Node 1</span>
+            <li>
+                <input type="checkbox" /><span>Node 1</span>
                 <ul>
-                    <li><input type="checkbox"><span>Node 1.1</span>
+                    <li>
+                        <input type="checkbox" /><span>Node 1.1</span>
                         <ul>
-                            <li><input type="checkbox"><span>Node 1.1.1</span>
+                            <li><input type="checkbox" /><span>Node 1.1.1</span></li>
                         </ul>
+                    </li>
                 </ul>
                 <ul>
-                    <li><input type="checkbox"><span>Node 1.2</span>
+                    <li>
+                        <input type="checkbox" /><span>Node 1.2</span>
                         <ul>
-                            <li><input type="checkbox"><span>Node 1.2.1</span>
-                            <li><input type="checkbox"><span>Node 1.2.2</span>
-                            <li><input type="checkbox"><span>Node 1.2.3</span>
+                            <li><input type="checkbox" /><span>Node 1.2.1</span></li>
+                            <li><input type="checkbox" /><span>Node 1.2.2</span></li>
+                            <li>
+                                <input type="checkbox" /><span>Node 1.2.3</span>
                                 <ul>
-                                    <li><input type="checkbox"><span>Node 1.2.3.1</span>
-                                    <li><input type="checkbox"><span>Node 1.2.3.2</span>
+                                    <li><input type="checkbox" /><span>Node 1.2.3.1</span></li>
+                                    <li><input type="checkbox"><span>Node 1.2.3.2</span></li>
                                 </ul>
-                            <li><input type="checkbox"><span>Node 1.2.4</span>
-                            <li><input type="checkbox"><span>Node 1.2.5</span>
-                            <li><input type="checkbox"><span>Node 1.2.6</span>
+                            </li>
+                            <li><input type="checkbox"><span>Node 1.2.4</span></li>
+                            <li><input type="checkbox"><span>Node 1.2.5</span></li>
+                            <li><input type="checkbox"><span>Node 1.2.6</span></li>
                         </ul>
+                    </li>
                 </ul>
-            <li><input type="checkbox"><span>Node 2</span>
+            </li>
+            <li>
+                <input type="checkbox" /><span>Node 2</span>
                 <ul>
-                    <li><input type="checkbox"><span>Node 2.1</span>
+                    <li>
+                        <input type="checkbox" /><span>Node 2.1</span>
                         <ul>
-                            <li><input type="checkbox"><span>Node 2.1.1</span>
+                            <li><input type="checkbox"><span>Node 2.1.1</span></li>
                         </ul>
-                    <li><input type="checkbox"><span>Node 2.2</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" /><span>Node 2.2</span>
                         <ul>
-                            <li><input type="checkbox"><span>Node 2.2.1</span>
-                            <li><input type="checkbox"><span>Node 2.2.2</span>
-                            <li><input type="checkbox"><span>Node 2.2.3</span>
+                            <li><input type="checkbox"><span>Node 2.2.1</span></li>
+                            <li><input type="checkbox"><span>Node 2.2.2</span></li>
+                            <li>
+                                <input type="checkbox"><span>Node 2.2.3</span>
                                 <ul>
-                                    <li><input type="checkbox"><span>Node 2.2.3.1</span>
-                                    <li><input type="checkbox"><span>Node 2.2.3.2</span>
+                                    <li><input type="checkbox"><span>Node 2.2.3.1</span></li>
+                                    <li><input type="checkbox"><span>Node 2.2.3.2</span></li>
                                 </ul>
-                            <li><input type="checkbox"><span>Node 2.2.4</span>
-                            <li><input type="checkbox"><span>Node 2.2.5</span>
-                            <li><input type="checkbox"><span>Node 2.2.6</span>
+                            </li>
+                            <li><input type="checkbox"><span>Node 2.2.4</span></li>
+                            <li><input type="checkbox"><span>Node 2.2.5</span></li>
+                            <li><input type="checkbox"><span>Node 2.2.6</span></li>
                         </ul>
+                    </li>
                 </ul>
+            </li>
         </ul>
     </div>
+    
+    ```
     
 Please, refer to documentation for details.
