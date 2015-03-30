@@ -43,7 +43,7 @@ First of all, let's setup plugin initialization into html head section:
     </script>
     
 Now, we can build our tree into html body section:
-    ```html
+    
     <div id="tree">
         <ul>
             <li>
@@ -107,6 +107,6 @@ Now, we can build our tree into html body section:
         </ul>
     </div>
     
-    ```
+    
     
 Please, refer to documentation for details.
