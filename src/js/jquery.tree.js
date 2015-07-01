@@ -3,7 +3,7 @@
  * @author Valerio Galano <v.galano@daredevel.com>
  * @license MIT
  * @see https://github.com/daredevel/jquery-tree
- * @version 0.1
+ * @version 0.2
  */
 (function ($, undefined) {
     $.widget("daredevel.tree", {
@@ -55,7 +55,7 @@
                 this._attachLi(li, parent, position);
 
                 //initialize nodes from core to call all components initialize methods
-                this._initializeNode(li);
+                this._initNode(li);
 
             } else {
 
@@ -66,8 +66,8 @@
                 parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
 
                 //initialize nodes from core to call all components initialize methods
-                this._initializeNode(li);
-                this._initializeNode(parent);
+                this._initNode(li);
+                this._initNode(parent);
             }
         },
 
@@ -110,7 +110,7 @@
          * @private
          *
          * @note Base tree structure must be something like this:
-         *
+         *@todo fix doc
          * <div id="tree">
          *   <ul>
          *     <li id="node1" class="expanded"><input type="checkbox"><label>Node 1</label><span>Node 1</span>
@@ -128,37 +128,38 @@
 
             var t = this;
 
-            // add core widget to options so components can add methods @todo remove core variable
-            this.options.core = this;
-
             // add jQueryUI css widget classes
             this.element.addClass('ui-widget ui-widget-content daredevel-tree');
 
             // initialize requested features
             if (this.options.checkbox) {
-                this._createCheckbox();
+                this._initCheckboxTree();
             }
             if (this.options.collapsible) {
-                this._createCollapsible();
+                this._initCollapsibleTree();
             }
             if (this.options.dnd) {
-                this._createDnd();
+                this._initDndTree();
             }
             if (this.options.selectable) {
-                this._createSelectable();
+                this._initSelectableTree();
+            }
+            if (this.options.lazyLoading) {
+                this._initLazyTree();
             }
 
-            // initialize requested components
-            //this._initializeComponents();
-
             this.element.find('li').each(function () {
-                t._initializeNode($(this));
+                t._initNode($(this));
             });
 
-            if (this.options.nodes != null) {
-                $.each(this.options.nodes, function (key, value) {
-                    t.options.core.addNode(value);
-                });
+            // initialize object passed nodes
+            if ((this.options.nodes != null) && (this.options.nodes instanceof Object)) {
+                t._initFromObject(this.options.nodes);
+            }
+
+            // initialize ajax nodes
+            if ((this.options.nodesInitUrl != null)) {
+                t._initFromAjax(this.options.nodesInitUrl);
             }
         },
 
@@ -182,7 +183,7 @@
          */
         _detachNode: function (li) {
 
-            var parentLi = this.options.core.parentNode(li);
+            var parentLi = this.parentNode(li);
 
             var ul = parentLi.find('ul:first');
 
@@ -194,20 +195,7 @@
             }
 
             //initialize node from core to call all components initialize methods
-            this.options.core._initializeNode(parentLi);
-        },
-
-        /**
-         * Initialize requested components
-         *
-         * @private
-         */
-        _initializeComponents: function () {
-            for (var i in this.options.components) {
-                var initializeComponent = 'element.tree' + this.options.components[i] + '(options);';
-                run = new Function("options", "element", initializeComponent);
-                run(this.options, this.element);
-            }
+            this._initNode(parentLi);
         },
 
         /**
@@ -217,21 +205,39 @@
          *
          * @param li node to initialize
          */
-        _initializeNode: function (li) {
+        _initNode: function (li) {
             li.children('span:last').addClass('daredevel-tree-label');
 
             if (this.options.checkbox) {
-                this._initializeCheckboxNode(li);
+                this._initCheckboxNode(li);
             }
             if (this.options.collapsible) {
-                this._initializeCollapsibleNode(li);
+                this._initCollapsibleNode(li);
             }
             if (this.options.dnd) {
-                this._initializeDndNode(li);
+                this._initDndNode(li);
             }
             if (this.options.selectable) {
-                this._initializeSelectableNode(li);
+                this._initSelectableNode(li);
             }
+            if (this.options.lazyLoading) {
+                this._initLazyNode(li);
+            }
+        },
+
+        /**
+         * Add nodes to tree using data contained in passed object
+         *
+         * @param nodesObject
+         *
+         * @private
+         */
+        _initFromObject: function (nodesObject) {
+            var t = this;
+
+            $.each(nodesObject, function (key, value) {
+                t.addNode(value);
+            });
         },
 
         /**
@@ -283,6 +289,8 @@
         /**
          * Move a node under new parent
          *
+         * @public
+         *
          * @param li node to move
          * @param parentLi node under which node will be moved
          * @param position position of the node between brothers (expressed as positive integer)
@@ -314,6 +322,8 @@
 
         /**
          * Remove a node from tree (node is not actually delete, but still in memory)
+         *
+         * @public
          *
          * @param li node to delete (can be jQuery object or selector)
          */
@@ -382,60 +392,60 @@
         },
 
         /**
-         * Initialize plugin.
+         * Initialize tree's nodes to add checkbox features.
          *
          * @private
          */
-        _createCheckbox: function () {
+        _initCheckboxTree: function () {
 
             var t = this;
 
             // bind node uncheck event
             this.element.on('click', 'input:checkbox:not(:checked)', function () {
-                t.uncheck(t.options.core.parentNode($(this)));
+                t.uncheck(t.parentNode($(this)));
             });
 
             // bind node check event
             this.element.on('click', 'input:checkbox:checked', function () {
-                t.check(t.options.core.parentNode($(this)));
+                t.check(t.parentNode($(this)));
             });
 
             // bind collapse on uncheck event
             if (this.options.onUncheck.node == 'collapse') {
                 this.element.on("click", 'input:checkbox:not(:checked)', function () {
-                    t.options.core.collapse(t.options.core.parentNode($(this)));
+                    t.collapse(t.parentNode($(this)));
                 });
             } else
 
             // bind expand on uncheck event
             if (this.options.onUncheck.node == 'expand') {
                 this.element.on("click", 'input:checkbox:not(:checked)', function () {
-                    t.options.core.expand(t.options.core.parentNode($(this)));
+                    t.expand(t.parentNode($(this)));
                 });
             }
 
             // bind collapse on check event
             if (this.options.onCheck.node == 'collapse') {
                 this.element.on("click", 'input:checkbox:checked', function () {
-                    t.options.core.collapse(t.options.core.parentNode($(this)));
+                    t.collapse(t.parentNode($(this)));
                 });
             } else
 
             // bind expand on check event
             if (this.options.onCheck.node == 'expand') {
                 this.element.on("click", 'input:checkbox:checked', function () {
-                    t.options.core.expand(t.options.core.parentNode($(this)));
+                    t.expand(t.parentNode($(this)));
                 });
             }
         },
 
         /**
-         * Initialize passed node
+         * Initialize passed node to add checkbox features
          *
          * @private
          * @param li node to initialize
          */
-        _initializeCheckboxNode: function (li) {
+        _initCheckboxNode: function (li) {
 
         },
 
@@ -516,10 +526,10 @@
             } else if (this.options.onCheck.ancestors == 'uncheck') {
                 this._uncheckAncestors(li);
             } else if (this.options.onCheck.ancestors == 'checkIfFull') {
-                var isRoot = this.options.core.isRoot(li);
-                var allDescendantChecked = this._allDescendantChecked(this.options.core.parentNode(li));
+                var isRoot = this.isRoot(li);
+                var allDescendantChecked = this._allDescendantChecked(this.parentNode(li));
                 if (!isRoot && allDescendantChecked) {
-                    this.check(this.options.core.parentNode(li));
+                    this.check(this.parentNode(li));
                 }
             }
         },
@@ -582,17 +592,17 @@
         },
 
         /**
-         * Initialize plugin
+         * Initialize tree's nodes to add collapse features.
          *
          * @private
          */
-        _createCollapsible: function () {
+        _initCollapsibleTree: function () {
 
             var t = this
 
             // bind collapse/expand event
             this.element.on("click", 'li span.daredevel-tree-anchor', function () {
-                var li = t.options.core.parentNode($(this));
+                var li = t.parentNode($(this));
 
                 if (li.hasClass('collapsed')) {
                     t.expand(li);
@@ -603,13 +613,13 @@
         },
 
         /**
-         * Initialize passed node
+         * Initialize passed node to add collapse features.
          *
          * @private
          *
          * @param li node to initialize
          */
-        _initializeCollapsibleNode: function (li) {
+        _initCollapsibleNode: function (li) {
 
             var t = this;
 
@@ -703,6 +713,7 @@
          * Unmark node
          *
          * @param li  node to unmark
+         * @private
          */
         _unmark: function () {
             li.removeClass("collapsed expanded leaf");
@@ -745,7 +756,7 @@
                 li.children("ul").hide();
                 t._markAsCollapsed(li, t.options);
             }
-            t.options.core._trigger('collapse', true, li);
+            t._trigger('collapse', true, li);
         },
 
         /**
@@ -797,7 +808,7 @@
                 t._markAsExpanded(li, t.options);
             }
 
-            t.options.core._trigger('expand', true, li);
+            t._trigger('expand', true, li);
         },
 
         /**
@@ -813,24 +824,22 @@
         },
 
         /**
-         * Initialize plugin
+         * Initialize tree's nodes to add dnd features.
          *
          * @private
          */
-        _createDnd: function () {
-
-            var t = this;
+        _initDndTree: function () {
 
         },
 
         /**
-         * Initialize passed node
+         * Initialize passed node to add dnd features.
          *
          * @private
          *
          * @param li node to initialize
          */
-        _initializeDndNode: function (li) {
+        _initDndNode: function (li) {
 
             var t = this;
 
@@ -838,31 +847,31 @@
                 'class': 'prepended',
                 html: '<br/>'
             }).droppable({
-                    hoverClass: 'over',
-                    drop: function (event, ui) {
+                hoverClass: 'over',
+                drop: function (event, ui) {
 
-                        var li = $(this).closest('li');
+                    var li = $(this).closest('li');
 
-                        // if node will be a root parent is undefined, else catch new parentLi
-                        if (t.options.core.isRoot(li)) {
-                            var parentLi = undefined;
-                            var droppable = t.options.core.element;
-                        } else {
-                            var parentLi = li.parent().closest('li');
-                            var droppable = parentLi;
+                    // if node will be a root parent is undefined, else catch new parentLi
+                    if (t.isRoot(li)) {
+                        var parentLi = undefined;
+                        var droppable = t.element;
+                    } else {
+                        var parentLi = li.parent().closest('li');
+                        var droppable = parentLi;
 
-                            // prevent loops
-                            if ($(ui.draggable.parent('li')).find(parentLi).length) {
-                                return;
-                            }
+                        // prevent loops
+                        if ($(ui.draggable.parent('li')).find(parentLi).length) {
+                            return;
                         }
-
-                        var position = $($(this).parent('li')).index() + 1;
-
-                        t.options.core.moveNode(ui.draggable.parent('li'), parentLi, position);
-                        t._trigger('drop', event, {draggable: ui.draggable, droppable: parentLi});
                     }
-                });
+
+                    var position = $($(this).parent('li')).index() + 1;
+
+                    t.moveNode(ui.draggable.parent('li'), parentLi, position);
+                    t._trigger('drop', event, {draggable: ui.draggable, droppable: parentLi});
+                }
+            });
 
             $(li).find('.daredevel-tree-label:first').after(span);
 
@@ -884,35 +893,35 @@
                 'class': 'droppable-label',
                 html: '<br/>'
             }).droppable({
-                    drop: function (event, ui) {
-                        var li = $(this).closest('li');
+                drop: function (event, ui) {
+                    var li = $(this).closest('li');
 
-                        // prevent loops
-                        if ($(ui.draggable.parent('li')).find(li).length) {
-                            return;
-                        }
-
-                        t.options.core.moveNode(ui.draggable.parent('li'), li, 1);
-                        t._trigger('drop', event, {draggable: ui.draggable, droppable: li});
-                    },
-                    over: function (event, ui) {
-                        $(this).parent('li').find('.daredevel-tree-label:first').addClass('ui-state-hover');
-                    },
-                    out: function (event, ui) {
-                        $(this).parent('li').find('.daredevel-tree-label:first').removeClass('ui-state-hover');
+                    // prevent loops
+                    if ($(ui.draggable.parent('li')).find(li).length) {
+                        return;
                     }
-                });
+
+                    t.moveNode(ui.draggable.parent('li'), li, 1);
+                    t._trigger('drop', event, {draggable: ui.draggable, droppable: li});
+                },
+                over: function (event, ui) {
+                    $(this).parent('li').find('.daredevel-tree-label:first').addClass('ui-state-hover');
+                },
+                out: function (event, ui) {
+                    $(this).parent('li').find('.daredevel-tree-label:first').removeClass('ui-state-hover');
+                }
+            });
 
             $(li).find('.daredevel-tree-label:first').after(span);
 
         },
 
         /**
-         * Initialize plugin
-         * //@todo find right name or merge with _create
+         * Initialize tree's nodes to add select features.
+         *
          * @private
          */
-        _createSelectable: function () {
+        _initSelectableTree: function () {
             var t = this;
 
             this.element.on("click", '.daredevel-tree-label', function () {
@@ -950,20 +959,20 @@
         },
 
         /**
-         *
+         * @private
          */
         _destroySelectable: function () {
             //@todo complete treeselect _destory method
         },
 
         /**
-         * Initialize passed node
+         * Initialize passed node to add select feature.
          *
          * @private
          *
          * @param li node to initialize
          */
-        _initializeSelectableNode: function (li) {
+        _initSelectableNode: function (li) {
 
         },
 
@@ -1018,6 +1027,96 @@
             return $(selected).parent();
         },
 
+        /**
+         * Initialize tree's nodes to add lazy loading features.
+         *
+         * @private
+         */
+        _initLazyTree: function () {
+            var t = this;
+
+            // bind lazy loading on expand event
+            if (this.options.lazyLoading) {
+
+                t.element.on("treeexpand", function (event, element) {
+                    var li = $(this);
+                    if ($(element).find('ul').length) {
+                        return;
+                    }
+                    t._lazyAdd(t.options.nodesLazyUrl, $(element));
+                });
+            }
+            /*
+             // bind edit on drop event
+             if (this.options.dataEditUrl) {
+             this.element.bind("treemove", function (event, element) {
+             // @todo: test if parent is not changed
+             t._notifyMove($(element));
+             });
+             }*/
+        },
+
+        /**
+         * Initialize passed node to add lazy loading feature.
+         *
+         * @private
+         *
+         * @param li node to initialize
+         */
+        _initLazyNode: function (li) {
+
+        },
+
+        /**
+         * Fetch tree via ajax.
+         *
+         * @private
+         */
+        _initFromAjax: function (urlString) {
+            var t = this;
+
+            $.ajax({
+                url: urlString,
+                dataType: 'json',
+                beforeSend: function () {
+
+                },
+                complete: function () {
+
+                },
+                data: {},
+                success: function (data) {
+                    $.each(data.nodes, function (key, value) {
+                        t.addNode(value);
+                    });
+                }
+            });
+        },
+
+        /**
+         * Fetch node's children via ajax.
+         *
+         * @private
+         *
+         * @param parentLi node of which we want children
+         */
+        _lazyAdd: function (urlString, parentLi) {
+            var t = this;
+
+            $.ajax({
+                url: urlString,
+                dataType: 'json',
+                data: {
+                    node: parentLi.attr('id')
+                },
+                success: function (data) {
+
+                    $.each(data.nodes, function (key, value) {
+                        t.addNode(value, parentLi);
+                    });
+                }
+            });
+        },
 
         /**
          * Default options values.
@@ -1040,9 +1139,25 @@
             },
 
             /**
+             * Defines nodes to create at widget initialization. It's something like following:
              *
+             * var obj =
+             * [
+             *     {
+             *         children: [
+             *             {},
+             *             {}
+             *         ]
+             *     },
+             *     {
+             *
+             *     }
+             * ]
+             *
+             * @todo complete doc
              */
             nodes: null,
+
             /**
              * Defines if tree nodes will have a checkbox field
              */
@@ -1150,19 +1265,27 @@
              */
             leafUiIcon: '',
 
+            /**
+             * Define if tree has drag and drop for nodes.
+             */
             dnd: true,
 
+            /**
+             * Defines function to handle drop event.
+             *
+             * @param event
+             * @param element
+             */
             drop: function (event, element) {
-
             },
 
             /**
-             * Defines if tree nodes are selectable
+             * Defines if tree nodes are selectable.
              */
             selectable: true,
 
             /**
-             * Defines function to handle deselect event
+             * Defines function to handle deselect event.
              *
              * @param event
              * @param element
@@ -1176,19 +1299,68 @@
             selectUiClass: 'ui-state-active',
 
             /**
-             * Define if can be selected only one node at a time
+             * Define if can be selected only one node at a time.
              */
             selectUnique: true,
 
             /**
-             * Defines function to handle select event
+             * Defines function to handle select event.
              *
              * @param event
              * @param element
              */
             select: function (event, element) {
-            }
+            },
 
+            /**
+             * Defines if tree handle nodes lazy loading.
+             */
+            lazyLoading: false,
+
+            /**
+             * Defines url to request when tree modify operations happens.
+             *
+             * Server should return a null value if OK or an object like following:
+             * {
+             *     error: "there was an error saving ..."
+             * }
+             * The error string will be shown to user.
+             */
+            dataEditUrl: '',
+
+            /**
+             * Defines url to request to get tree nodes at widget initialization.
+             *
+             * Server should return an object like following:
+             * {
+             *    "nodes": [
+             *       {
+             *           "span": {
+             *               "html": "Ajax node 1"
+             *           },
+             *           "li": {
+             *               "class": "collapsed"
+             *           }
+             *       },
+             *       {
+             *           "span": {
+             *               "html": "Ajax node 2"
+             *           },
+             *           "li": {
+             *               "class": "collapsed"
+             *           }
+             *       }
+             *    ]
+             * }
+             */
+            nodesInitUrl: '',
+
+            /**
+             * Defines url to request to get tree nodes for lazy loading.
+             *
+             * @see nodesInitUrl for object structure definition.
+             */
+            nodesLazyUrl: ''
         }
     });
 
@@ -1205,7 +1377,7 @@
                 left: p.left - (parseInt(this.helper.css("left"), 10) || 0)/* + this.scrollParent.scrollLeft()*/
             };
         } else {
-            return { top: 0, left: 0 };
+            return {top: 0, left: 0};
         }
     };
 
