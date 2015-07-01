@@ -30,16 +30,8 @@
     <!-- start development configuration -->
 
     <script type="text/javascript" src="src/js/jquery.tree.js"></script>
-<!--    <script type="text/javascript" src="src/js/jquery.treeajax.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treecheckbox.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treecollapse.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treecontextmenu.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treednd.js"></script>
-    <script type="text/javascript" src="src/js/jquery.treeselect.js"></script> -->
     <link rel="stylesheet" type="text/css" href="src/css/jquery.tree.css"/>
-<!--    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecollapse.css"/>
-    <link rel="stylesheet" type="text/css" href="src/css/jquery.treecontextmenu.css"/>
-    <link rel="stylesheet" type="text/css" href="src/css/jquery.treednd.css"/>-->
+
     <!-- start development configuration -->
 
     <script type="text/javascript">
@@ -144,7 +136,9 @@
             <p>This example show how to retrieve nodes from an ajax call.</p>
             <code class="jquery" lang="text/javascript">
                 $('#example-2 div').tree({
-                    dataSourceUrl: 'demo/lazy.json'
+                    lazyLoading: true,
+                    nodesLazyUrl: 'demo/lazy.json',
+                    nodesInitUrl: 'demo/lazy.json'
                 });
             </code>
             <div>
@@ -728,7 +722,7 @@
                 </ul>
             </div>
         </div>
-
+<!--
         <h3><a href="#">ajax edit</a></h3>
         <div id="example-13">
             <p>This example show ...</p>
@@ -782,7 +776,7 @@
                 </ul>
             </div>
         </div>
-
+-->
     </div>
 
 </body>
