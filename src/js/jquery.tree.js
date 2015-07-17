@@ -1378,21 +1378,4 @@
         }
     });
 
-    /**
-     * Patch for jQueryUI draggable
-     *
-     * @see http://bugs.jqueryui.com/ticket/3740
-     */
-    $.ui.draggable.prototype._getRelativeOffset = function () {
-        if (this.cssPosition == "relative") {
-            var p = this.element.position();
-            return {
-                top: p.top - (parseInt(this.helper.css("top"), 10) || 0)/* + this.scrollParent.scrollTop()*/,
-                left: p.left - (parseInt(this.helper.css("left"), 10) || 0)/* + this.scrollParent.scrollLeft()*/
-            };
-        } else {
-            return {top: 0, left: 0};
-        }
-    };
-
 })(jQuery);
