@@ -3,7 +3,7 @@
  * @author Valerio Galano <v.galano@daredevel.com>
  * @license MIT
  * @see https://github.com/daredevel/jquery-tree
- * @version 0.2
+ * @version 0.1
  */
 (function ($, undefined) {
     $.widget("daredevel.tree", {
@@ -45,8 +45,13 @@
          * @param li node to attach
          * @param parentLi node under which new node will be attached
          * @param position position of the node between brothers (expressed as positive integer)
+         * @param parentExpand boolean that specify if parens must be expandend after children was added
          */
-        _attachNode: function (li, parentLi, position) {
+        _attachNode: function (li, parentLi, position, parentExpand) {
+
+            if (parentExpand == undefined) {
+                parentExpand = true;
+            }
 
             if (undefined == parentLi) {
 
@@ -63,7 +68,11 @@
 
                 this._attachLi(li, parent, position);
 
-                parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+                if (parentExpand) {
+                    parent.removeClass('leaf collapsed').addClass('expanded'); //@todo find right way to do this
+                } else {
+                    parent.removeClass('leaf').addClass('collapsed');
+                }
 
                 //initialize nodes from core to call all components initialize methods
                 this._initNode(li);
@@ -248,17 +257,18 @@
          * @param attributes new node attributes
          * @param parentLi node under which new node will be attached
          * @param position position of the node between brothers (expressed as positive integer)
+         * @param parentExpand boolean that specify if parens must be expandend after children was added
          */
-        addNode: function (attributes, parentLi, position) {
+        addNode: function (attributes, parentLi, position, parentExpand) {
 
             var t = this;
 
             var li = this._buildNode(attributes);
 
             if ((undefined == parentLi) || 0 == parentLi.length) {
-                this._attachNode($(li), undefined, position);
+                this._attachNode($(li), undefined, position, false);
             } else {
-                this._attachNode($(li), $(parentLi), position);
+                this._attachNode($(li), $(parentLi), position, parentExpand);
             }
 
             if (undefined != attributes.children) {
@@ -778,6 +788,7 @@
          *
          * @param li node to expand
          * @param effect true if use effects
+         * @param force specify if script must try to expand a just expanded node
          */
         expand: function (li, effect, force) {
 
@@ -796,6 +807,8 @@
             }
 
             var t = this;
+
+            t._trigger('preexpand', true, li);
 
             if (effect) {
                 li.children("ul").show(t.options.expandEffect, {}, t.options.expandDuration);
@@ -1038,7 +1051,7 @@
             // bind lazy loading on expand event
             if (this.options.lazyLoading) {
 
-                t.element.on("treeexpand", function (event, element) {
+                t.element.on("treepreexpand", function (event, element) {
                     var li = $(this);
                     if ($(element).find('ul').length) {
                         return;
@@ -1104,6 +1117,7 @@
             var t = this;
 
             $.ajax({
+                async:false,
                 url: urlString,
                 dataType: 'json',
                 data: {
@@ -1112,7 +1126,7 @@
                 success: function (data) {
 
                     $.each(data.nodes, function (key, value) {
-                        t.addNode(value, parentLi);
+                        t.addNode(value, parentLi, undefined, false);
                     });
                 }
             });
