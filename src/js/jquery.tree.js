@@ -353,7 +353,19 @@
          * @return true if all descendant checked
          */
         _allDescendantChecked: function (li) {
-            return (li.find('li input:checkbox:not(:checked)').length == 0);
+            return (li.find('li input:checkbox').length > 0)
+                && (li.find('li input:checkbox:not(:checked)').length == 0);
+        },
+
+       /**
+        * Check if all descendants of passed node are unchecked
+        *
+        * @private
+        * @param li node
+        * @return true if all descendant unchecked
+        */
+        _allDescendantUnChecked: function(li) {
+            return (li.find('li input:checkbox:checked').length == 0);
         },
 
         /**
@@ -586,6 +598,12 @@
                 this._checkAncestors(li);
             } else if (this.options.onUncheck.ancestors == 'uncheck') {
                 this._uncheckAncestors(li);
+            } else if (this.options.onUncheck.ancestors == 'uncheckIfEmpty') {
+                var isRoot = this.options.core.isRoot(li);
+                var allDescendantUnChecked = this._allDescendantUnChecked(this.options.core.parentNode(li));
+                if (!isRoot && allDescendantUnChecked) {
+                  this.uncheck(this.options.core.parentNode(li));
+                }
             }
 
         },
@@ -1217,7 +1235,7 @@
             onUncheck: {
 
                 /**
-                 * Available values: null, 'check', 'uncheck'.
+                 * Available values: null, 'check', 'uncheck', 'uncheckIfEmpty'.
                  */
                 ancestors: '',
 
