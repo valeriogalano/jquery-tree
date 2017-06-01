@@ -176,11 +176,56 @@
          * Destroy plugin
          *
          * @private
-         *
-         * @todo complete destroy method
          */
         _destroy: function () {
-            $.Widget.prototype.destroy.call(this);
+
+            this.element.removeClass('ui-widget ui-widget-content daredevel-tree');
+
+            this._destroyCheckboxTree();
+
+            this._destroyCollapsibleTree();
+        },
+
+        /**
+         * Destroy checkbox plugin's feature
+         *
+         * @private
+         */
+        _destroyCheckboxTree: function () {
+
+            // bind node uncheck event
+            this.element.off('click', 'input:checkbox:not(:checked)');
+
+            // bind node check event
+            this.element.off('click', 'input:checkbox:checked');
+
+            // bind collapse on uncheck event
+            this.element.off("click", 'input:checkbox:not(:checked)');
+
+            // bind expand on uncheck event
+            this.element.off("click", 'input:checkbox:not(:checked)');
+
+            // bind collapse on check event
+            this.element.off("click", 'input:checkbox:checked');
+
+            // bind expand on check event
+
+            this.element.off("click", 'input:checkbox:checked');
+        },
+
+        /**
+         * Destroy collapse plugin's feature
+         *
+         * @private
+         */
+        _destroyCollapsibleTree: function () {
+
+            // bind collapse/expand event
+            this.element.off("click", 'li span.daredevel-tree-anchor');
+
+            this.element.find().removeClass('leaf expanded collapsed');
+
+            this.element.find('span.daredevel-tree-anchor').remove();
         },
 
         /**
@@ -1117,7 +1162,7 @@
             var t = this;
 
             $.ajax({
-                async:false,
+                async: false,
                 url: urlString,
                 dataType: 'json',
                 data: {
