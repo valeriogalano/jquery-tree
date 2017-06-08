@@ -402,6 +402,17 @@
         },
 
         /**
+         * Check if all descendants of passed node are unchecked
+         *
+         * @private
+         * @param li node
+         * @return true if all descendants unchecked
+         */
+        _allDescendantUnchecked: function (li) {
+            return (li.find('li input:checkbox:checked').length == 0);
+        },
+
+        /**
          * Check ancestors on passed node
          *
          * Don't use check() method because we won't trigger onCheck events
@@ -631,6 +642,12 @@
                 this._checkAncestors(li);
             } else if (this.options.onUncheck.ancestors == 'uncheck') {
                 this._uncheckAncestors(li);
+            } else if (this.options.onUncheck.ancestors == 'uncheckIfEmpty') {
+                var isRoot = this.isRoot(li);
+                var allDescendantUnchecked = this._allDescendantUnchecked(this.parentNode(li));
+                if (!isRoot && allDescendantUnchecked) {
+                    this.uncheck(this.parentNode(li));
+                }
             }
 
         },
@@ -1262,7 +1279,7 @@
             onUncheck: {
 
                 /**
-                 * Available values: null, 'check', 'uncheck'.
+                 * Available values: null, 'check', 'uncheck', 'uncheckIfEmpty'.
                  */
                 ancestors: '',
 
