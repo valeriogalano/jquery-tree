@@ -4,7 +4,7 @@ daredevel's jQuery Tree is a jQuery UI widget that you can use to add advanced f
 It's designed to be fast, lightweight, simple to deploy and setup and highly configurable.
 
 * [live demo] (http://htmlpreview.github.io/?https://github.com/daredevel/jquery-tree/blob/master/index.html)
-* [documentation] (http://www.daredevel.com/jquery-tree-widget/)
+* [documentation] ([http://www.daredevel.com/jquery-tree-widget/](https://web.archive.org/web/20161106222353/http://www.daredevel.com/jquery-tree-widget))
 
 # Features
 * lightweight (less than 16Kb for minified version)
